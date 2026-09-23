@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060C14"/>
+      <stop offset="50%" stop-color="#0B1626"/>
+      <stop offset="100%" stop-color="#050B12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#006699" stop-opacity="0.32"/>
+      <stop offset="60%" stop-color="#004066" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#29B6F6"/>
+      <stop offset="50%" stop-color="#0080C0"/>
+      <stop offset="100%" stop-color="#005080"/>
+    </linearGradient>
+    <linearGradient id="compassAccent" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0288D1"/>
+      <stop offset="100%" stop-color="#80D8FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGrad)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+
+  <!-- Technical grid pattern overlay -->
+  <g opacity="0.08" stroke="#FFFFFF" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+  </g>
+
+  <!-- Framing accents -->
+  <rect x="24" y="24" width="752" height="402" fill="none" stroke="rgba(41, 182, 246, 0.2)" stroke-width="1" rx="4"/>
+  <circle cx="24" cy="24" r="2" fill="#29B6F6" opacity="0.6"/>
+  <circle cx="776" cy="24" r="2" fill="#29B6F6" opacity="0.6"/>
+  <circle cx="24" cy="426" r="2" fill="#29B6F6" opacity="0.6"/>
+  <circle cx="776" cy="426" r="2" fill="#29B6F6" opacity="0.6"/>
+
+  <!-- Dassault Systèmes 3D Compass Emblem -->
+  <g transform="translate(400, 145)">
+    <!-- Outer Orbital Ring -->
+    <ellipse cx="0" cy="0" rx="68" ry="24" fill="none" stroke="url(#compassGrad)" stroke-width="4.5" transform="rotate(-28)"/>
+    <ellipse cx="0" cy="0" rx="68" ry="24" fill="none" stroke="url(#compassAccent)" stroke-width="2" stroke-dasharray="32 14" transform="rotate(-28)"/>
+
+    <!-- Cross Axis Coordinates -->
+    <g stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round">
+      <line x1="0" y1="-38" x2="0" y2="38"/>
+      <line x1="-38" y1="0" x2="38" y2="0"/>
+    </g>
+
+    <!-- Compass North Pointer & Arrows -->
+    <polygon points="0,-48 7,-36 -7,-36" fill="#29B6F6"/>
+    <polygon points="48,0 36,7 36,-7" fill="#0288D1"/>
+    <polygon points="0,48 -7,36 7,36" fill="#005080"/>
+    <polygon points="-48,0 -36,-7 -36,7" fill="#005080"/>
+
+    <!-- Central 3D Core Sphere -->
+    <circle cx="0" cy="0" r="14" fill="#002D4C" stroke="#29B6F6" stroke-width="2"/>
+    <circle cx="-3" cy="-3" r="4" fill="#80D8FF"/>
+  </g>
+
+  <!-- Typography -->
+  <!-- "LA FONDATION" header -->
+  <text x="400" y="246" text-anchor="middle" font-family="'IBM Plex Mono', 'Segoe UI', Arial, sans-serif" font-size="18" font-weight="600" fill="#29B6F6" letter-spacing="9">LA FONDATION</text>
+
+  <!-- "DASSAULT SYSTÈMES" main brand -->
+  <text x="400" y="296" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="36" font-weight="800" fill="#FFFFFF" letter-spacing="3.5">DASSAULT SYSTÈMES</text>
+
+  <!-- Decorative separator line -->
+  <g transform="translate(400, 324)">
+    <line x1="-160" y1="0" x2="160" y2="0" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1"/>
+    <circle cx="0" cy="0" r="3" fill="#E8A33D"/>
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#E8A33D" stroke-width="2"/>
+  </g>
+
+  <!-- Research Sponsorship Sub-label -->
+  <text x="400" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'Segoe UI', monospace" font-size="13" font-weight="500" fill="#94A3B8" letter-spacing="3.5">RESEARCH &amp; INNOVATION SPONSOR</text>
+  <text x="400" y="380" text-anchor="middle" font-family="'IBM Plex Mono', 'Segoe UI', monospace" font-size="12" font-weight="400" fill="#64748B" letter-spacing="2">PUNE, INDIA</text>
+</svg>

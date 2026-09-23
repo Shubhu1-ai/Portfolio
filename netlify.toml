@@ -1,0 +1,68 @@
+# Netlify Configuration for Shubham Bollu Portfolio
+
+[build]
+  publish = "."
+
+# Global Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Video Assets (WebM & MP4) with proper streaming MIME types and long-term caching
+[[headers]]
+  for = "*.webm"
+  [headers.values]
+    Content-Type = "video/webm"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.mp4"
+  [headers.values]
+    Content-Type = "video/mp4"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# PDF Documents - inline display so certificates open directly in-browser modal
+[[headers]]
+  for = "*.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Content-Disposition = "inline"
+
+# Modern Image Assets (WebP & SVG)
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Content-Type = "image/webp"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.svg"
+  [headers.values]
+    Content-Type = "image/svg+xml"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.avif"
+  [headers.values]
+    Content-Type = "image/avif"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Scroll Background Animation Frames
+[[headers]]
+  for = "/frames/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/Man Turning Video IMages/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/Man%20Turning%20Video%20IMages/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+

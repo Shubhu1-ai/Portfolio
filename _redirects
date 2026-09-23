@@ -1,0 +1,3 @@
+# Netlify redirects and clean routing
+/Main.html    /    301!
+

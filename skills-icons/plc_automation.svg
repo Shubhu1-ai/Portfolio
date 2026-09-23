@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="armOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#E64A19"/>
+    </linearGradient>
+    <linearGradient id="armSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ECEFF1"/>
+      <stop offset="100%" stop-color="#90A4AE"/>
+    </linearGradient>
+    <linearGradient id="armDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#455A64"/>
+      <stop offset="100%" stop-color="#212121"/>
+    </linearGradient>
+  </defs>
+  <!-- Base Pedestal -->
+  <rect x="24" y="112" width="80" height="8" rx="2" fill="#37474F"/>
+  <rect x="36" y="104" width="56" height="8" rx="2" fill="url(#armDark)"/>
+  <!-- Turntable Base -->
+  <rect x="46" y="94" width="36" height="10" rx="3" fill="#546E7A"/>
+  <circle cx="64" cy="92" r="12" fill="url(#armDark)" stroke="#78909C" stroke-width="2"/>
+  <circle cx="64" cy="92" r="4.5" fill="#FF7043"/>
+  <!-- Lower Arm -->
+  <polygon points="58,92 42,48 56,46 72,90" fill="url(#armOrange)"/>
+  <!-- Hydraulic Piston -->
+  <line x1="68" y1="84" x2="76" y2="60" stroke="#ECEFF1" stroke-width="4" stroke-linecap="round"/>
+  <!-- Elbow Joint -->
+  <circle cx="48" cy="46" r="13" fill="url(#armDark)" stroke="#90A4AE" stroke-width="2"/>
+  <circle cx="48" cy="46" r="5.5" fill="#ECEFF1"/>
+  <circle cx="48" cy="46" r="2" fill="#212121"/>
+  <!-- Upper Forearm -->
+  <polygon points="48,40 90,20 95,31 53,51" fill="url(#armSilver)"/>
+  <polygon points="56,41 87,26 90,32 59,47" fill="url(#armOrange)"/>
+  <!-- Wrist Joint -->
+  <circle cx="92" cy="25" r="9" fill="url(#armDark)" stroke="#90A4AE" stroke-width="1.5"/>
+  <circle cx="92" cy="25" r="3.5" fill="#FF7043"/>
+  <!-- Tool Flange & Gripper Jaws -->
+  <polygon points="98,22 110,16 112,22 100,28" fill="#546E7A"/>
+  <path d="M110 16 L120 12 L120 16 L114 19 Z" fill="#ECEFF1"/>
+  <path d="M112 22 L120 25 L120 29 L110 25 Z" fill="#ECEFF1"/>
+</svg>
+
