@@ -1292,6 +1292,100 @@
   .proj-card p, .exp-body ul{ color:#c2c2c2; }
   .tag, .pill{ border-color:var(--line); color:#c2c2c2; background:rgba(7,7,7,0.2); }
   .proj-links a{ border-color:rgba(245,245,245,0.5); }
+
+  /* Experience Cards: Fully Visible, High-Contrast & Adaptive across all devices */
+  .exp-card{
+    background:rgba(14, 18, 26, 0.76) !important;
+    border:1px solid rgba(245, 245, 245, 0.16) !important;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 8px 24px rgba(0, 0, 0, 0.45);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .exp-card:hover, .exp-card:focus-visible{
+    border-color:var(--amber) !important;
+    background:rgba(20, 28, 40, 0.9) !important;
+    box-shadow:0 14px 34px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 87, 34, 0.14);
+  }
+  .exp-card-body{
+    background:transparent !important;
+    padding:22px;
+  }
+  .exp-card-body h3{
+    color:#FFFFFF !important;
+    font-size:1.14rem;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .exp-card-company{
+    color:#F59E0B !important;
+    font-size:0.82rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+    margin-bottom:6px;
+  }
+  .exp-card-loc{
+    color:#94A3B8 !important;
+    font-size:0.75rem;
+    margin-bottom:12px;
+  }
+  .exp-card-loc svg{
+    stroke:#94A3B8 !important;
+  }
+  .exp-card-desc{
+    color:#CBD5E1 !important;
+    font-size:0.88rem;
+    line-height:1.55;
+    margin-bottom:16px;
+  }
+  .exp-card-cta{
+    color:#F59E0B !important;
+    border-top:1px dashed rgba(245, 245, 245, 0.18) !important;
+    font-size:0.78rem;
+    font-weight:600;
+  }
+  .exp-card-cta svg{
+    stroke:#F59E0B !important;
+  }
+  .exp-card:hover .exp-card-cta{
+    color:#FFB74D !important;
+  }
+  .exp-card:hover .exp-card-cta svg{
+    stroke:#FFB74D !important;
+  }
+  .exp-card-badge{
+    background:rgba(10, 15, 22, 0.92) !important;
+    border:1px solid rgba(245, 245, 245, 0.24) !important;
+    box-shadow:0 4px 12px rgba(0,0,0,0.5);
+  }
+  .exp-card-badge span{
+    color:#F1F5F9 !important;
+    font-weight:600;
+  }
+
+  @media (max-width:768px){
+    .exp-cards-grid{
+      grid-template-columns:1fr !important;
+      gap:20px;
+    }
+    .exp-card-body{
+      padding:18px 16px;
+    }
+    .exp-card-media{
+      height:190px;
+    }
+  }
+  @media (max-width:480px){
+    .exp-card-body h3{
+      font-size:1.05rem;
+    }
+    .exp-card-desc{
+      font-size:0.85rem;
+      line-height:1.5;
+    }
+  }
+
   footer{ background:rgba(7,7,7,0.72); color:#d0d0d0; border-top:1px solid var(--line); }
   footer p, .foot-links a, .foot-bottom{ color:var(--slate); }
   .foot-bottom{ border-top-color:var(--line); }
