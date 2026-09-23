@@ -44,3 +44,4 @@ Personal engineering portfolio website showcasing projects, industrial operation
 - **Email**: [shubhambollu1@gmail.com](mailto:shubhambollu1@gmail.com)
 - **GitHub**: [github.com/Shubhu1-ai](https://github.com/Shubhu1-ai)
 - **Location**: Paris, France
+
