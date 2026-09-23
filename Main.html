@@ -66,7 +66,9 @@
   /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
-    background:transparent;
+    background:
+      linear-gradient(90deg, rgba(7,7,7,0.86) 0%, rgba(7,7,7,0.74) 32%, rgba(7,7,7,0.42) 58%, rgba(7,7,7,0.62) 100%),
+      url('./frames/Presentation-Photo.png') center top / cover no-repeat;
     color:#EAF1F8;
   }
   .hero-inner{ position:relative; min-height:calc(100svh - 90px); padding:0 0 6px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(220px, 0.42fr); gap:6px; align-items:center; }
@@ -95,39 +97,25 @@
   .hero-meta div span{ display:block; color:#5E86A3; font-size:0.72rem; margin-bottom:4px;}
   .hero-cta{ margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; }
   .hero-visuals{
-    position:relative; display:flex; justify-content:center; align-items:center;
-    width:100%; z-index:2;
+    position:relative; display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
+    min-height:420px; width:100%;
   }
   .hero-photo-wrap{
-    width:100%; max-width:440px; display:flex; justify-content:center; align-items:center;
-  }
-  .hero-photo-card{
-    width:100%; border-radius:14px; overflow:hidden;
-    background:rgba(15, 20, 30, 0.75); border:1px solid rgba(245, 245, 245, 0.2);
-    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 16px 40px rgba(0, 0, 0, 0.65), 0 0 24px rgba(255, 87, 34, 0.12);
-    transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .hero-photo-card:hover{
-    transform:translateY(-5px);
-    border-color:var(--amber);
-    box-shadow:0 22px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 87, 34, 0.22);
+    width:min(100%, 420px); display:flex; justify-content:center; align-items:flex-end;
+    margin-left:8%;
   }
   .hero-photo{
-    display:block; width:100%; height:270px; object-fit:cover; object-position:88% center;
-    transition:transform 0.4s ease;
+    display:block; width:100%; height:auto; max-height:520px; object-fit:contain; object-position:center center;
+    filter:saturate(0.9) brightness(0.82) contrast(1.08);
   }
-  .hero-photo-card:hover .hero-photo{
-    transform:scale(1.03);
+  .hero-video-wrap{ display:flex; justify-content:center; align-items:center; width:min(100%, 300px); margin-top:12px; margin-left:12%; align-self:flex-end; }
+  .hero-video-frame{
+    position:relative; width:100%; overflow:visible; border:none; background:transparent; box-shadow:none; outline:none;
   }
-  .hero-photo-label{
-    padding:10px 14px; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
-    color:#E2E8F0; background:rgba(10, 15, 22, 0.94); border-top:1px solid rgba(245, 245, 245, 0.14);
-    display:flex; align-items:center; gap:8px;
-  }
-  .hero-photo-dot{
-    width:6px; height:6px; border-radius:50%; background:var(--amber);
-    box-shadow:0 0 8px var(--amber);
+  .hero-video-frame::after{ display:none; }
+  .hero-video{
+    width:100%; height:auto; display:block; object-fit:contain; object-position:center center;
+    background:transparent; border:none; outline:none; mix-blend-mode:normal; border-radius:0;
   }
   .video-showcase{
     position:relative; z-index:1; padding:56px 0; border-bottom:1px solid var(--line);
@@ -1259,8 +1247,12 @@
   #scroll-bg{
     z-index:-2;
     background:#070707;
-    filter:brightness(.92) contrast(1.04) saturate(1.03);
-    transform:scale(1.01);
+    filter:blur(4px) brightness(.92) contrast(1.04) saturate(1.03);
+    transform:scale(1.04);
+    transition:filter 0.3s ease;
+  }
+  #scroll-bg.first-frame{
+    filter:blur(0px) brightness(.92) contrast(1.04) saturate(1.03);
   }
   .cinematic-light{
     z-index:-1;
@@ -1280,7 +1272,8 @@
   .tb-menu-btn{ background:rgba(15,15,15,0.7); border-color:var(--line); color:var(--ink); }
   .hero{
     background:
-      linear-gradient(90deg, rgba(7,7,7,0.72) 0%, rgba(7,7,7,0.36) 45%, rgba(7,7,7,0.06) 80%, transparent 100%) !important;
+      linear-gradient(90deg, rgba(7,7,7,0.62) 0%, rgba(7,7,7,0.38) 42%, rgba(7,7,7,0.06) 72%, rgba(7,7,7,0.18) 100%),
+      url('./frames/Presentation-Photo.png') center / cover no-repeat;
     color:#f5f5f5;
   }
   .hero h1{ text-shadow:0 3px 18px rgba(0,0,0,0.85); }
@@ -1442,16 +1435,6 @@
       </div>
     </div>
 
-    <div class="hero-visuals">
-      <div class="hero-photo-wrap">
-        <div class="hero-photo-card">
-          <img class="hero-photo" src="./frames/Presentation-Photo.png" alt="Shubham Bollu - Engineering Presentation" loading="eager">
-          <div class="hero-photo-label">
-            <span class="hero-photo-dot"></span> Keynote Presentation · Industry 4.0
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -2171,6 +2154,13 @@
     const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollRange > 0 ? window.scrollY / scrollRange : 0;
     activeFrame = Math.min(frameCount - 1, Math.max(0, Math.floor(progress * (frameCount - 1))));
+
+    if (activeFrame === 0 && window.scrollY < 40) {
+      scrollCanvas.classList.add('first-frame');
+    } else {
+      scrollCanvas.classList.remove('first-frame');
+    }
+
     if (!frameQueued) {
       frameQueued = true;
       requestAnimationFrame(() => {
@@ -2182,6 +2172,8 @@
 
   window.addEventListener('resize', resizeScrollCanvas);
   window.addEventListener('scroll', scrubScrollFrame, { passive: true });
+  resizeScrollCanvas();
+  scrollCanvas.classList.add('first-frame');
 
   const frameFiles = Array.from({ length: 35 }, (_, index) => {
     const number = String(index + 1).padStart(3, '0');
@@ -2191,27 +2183,21 @@
   frameCount = frameFiles.length;
   frames = frameFiles.map((src, index) => {
     const image = new Image();
-    image.onload = () => {
-      if (index === activeFrame) drawFrame(activeFrame);
-    };
     image.src = src;
-    if (image.complete && index === activeFrame) {
-      drawFrame(activeFrame);
-    }
+    image.addEventListener('load', () => {
+      if (index === activeFrame) drawFrame(activeFrame);
+    });
     return image;
   });
 
-  resizeScrollCanvas();
-
-  // Guarantee frame 0 renders immediately on page load
-  const heroFirstFrame = new Image();
-  heroFirstFrame.onload = () => {
-    if (activeFrame === 0) drawFrame(0);
-  };
-  heroFirstFrame.src = frameFiles[0];
-  if (heroFirstFrame.complete && activeFrame === 0) {
-    drawFrame(0);
-  }
+  Promise.all(frames.map(image => new Promise(resolve => {
+    if (image.complete) resolve();
+    else image.addEventListener('load', resolve, { once: true });
+  }))).then(() => {
+    scrubScrollFrame();
+  }).catch(() => {
+    // Keep the dark cinematic fallback if one of the background frames fails to load.
+  });
 
   const robotVideo = document.querySelector('.about-robot-video');
   if (robotVideo) {

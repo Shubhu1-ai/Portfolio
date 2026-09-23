@@ -1259,8 +1259,12 @@
   #scroll-bg{
     z-index:-2;
     background:#070707;
-    filter:brightness(.92) contrast(1.04) saturate(1.03);
-    transform:scale(1.01);
+    filter:blur(4px) brightness(.92) contrast(1.04) saturate(1.03);
+    transform:scale(1.04);
+    transition:filter 0.3s ease;
+  }
+  #scroll-bg.first-frame{
+    filter:blur(0px) brightness(.92) contrast(1.04) saturate(1.03);
   }
   .cinematic-light{
     z-index:-1;
@@ -2171,6 +2175,13 @@
     const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollRange > 0 ? window.scrollY / scrollRange : 0;
     activeFrame = Math.min(frameCount - 1, Math.max(0, Math.floor(progress * (frameCount - 1))));
+
+    if (activeFrame === 0 && window.scrollY < 40) {
+      scrollCanvas.classList.add('first-frame');
+    } else {
+      scrollCanvas.classList.remove('first-frame');
+    }
+
     if (!frameQueued) {
       frameQueued = true;
       requestAnimationFrame(() => {
@@ -2182,6 +2193,8 @@
 
   window.addEventListener('resize', resizeScrollCanvas);
   window.addEventListener('scroll', scrubScrollFrame, { passive: true });
+  resizeScrollCanvas();
+  scrollCanvas.classList.add('first-frame');
 
   const frameFiles = Array.from({ length: 35 }, (_, index) => {
     const number = String(index + 1).padStart(3, '0');
