@@ -94,8 +94,7 @@
     display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;
     font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:#9FC0DB;
   }
-  .hero-meta div span{ display:block; color:#5E86A3; font-size:0.72rem; margin-bottom:4px;}
-  .hero-cta{ margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; }
+  .hero-cta{ margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; }
   .hero-visuals{
     position:relative; display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
     min-height:420px; width:100%;
@@ -1424,10 +1423,6 @@
       <div class="hero-eyebrow"><span class="dot"></span> AVAILABLE FOR HIRE — PARIS, FRANCE</div>
       <h1>Robotics &amp; Industry 4.0 Engineer.</h1>
       <p class="role">I build systems where hardware, control loops, and software meet — from AI-assisted diagnostics to data center infrastructure.</p>
-      <div class="hero-meta">
-        <div><span>PROGRAM</span>M.Sc. Robotics &amp; Industry 4.0, ESILV</div>
-        <div><span>RECENT</span>AWS · Data Center Engineering Operations</div>
-      </div>
       <div class="hero-cta">
         <a class="btn primary" href="#projects">View projects</a>
         <a class="btn" href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">GitHub ↗</a>
@@ -1901,24 +1896,28 @@
   // ---- Edit this array to add/update projects. Each one renders as a spec card below. ----
   const projects = [
     {
+      code: "DWG NO. KIN-001",
       title: "Robotic Kinematics & Trajectory Planning",
       desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
       tags: ["MATLAB", "Simulink", "Kinematics"],
       links: []
     },
     {
+      code: "DWG NO. NAV-002",
       title: "ROS2 Autonomous Navigation",
       desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
       tags: ["ROS2", "Embedded Systems", "Python"],
       links: []
     },
     {
+      code: "DWG NO. LEO-003",
       title: "LEO Robotics (Engineering Communication)",
       desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
       tags: ["3D Animation", "Technical Communication"],
       links: []
     },
     {
+      code: "DWG NO. EDGE-004",
       title: "Industrial Edge AI & Vision",
       desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
       tags: ["Computer Vision", "OpenCV", "YOLO"],
@@ -1929,6 +1928,7 @@
   // ---- Research & innovation projects (Bachelor's, Dassault Systèmes–sponsored) ----
   const research = [
     {
+      code: "DWG NO. RES-001",
       title: "Solar Earthen Pot Air Cooler",
       image: "./Project/Dassault Systemes.avif",
       imagePos: "center center",
@@ -1939,6 +1939,7 @@
       ]
     },
     {
+      code: "DWG NO. RES-002",
       title: "Solar Milk Pasteurization",
       image: "./Project/Milk Pasturization.jpg",
       imagePos: "center center",
@@ -1947,6 +1948,7 @@
       links: []
     },
     {
+      code: "DWG NO. RES-003",
       title: "Solar DC Water Pump",
       image: "./Project/DC Water Pump 2.jpg",
       imagePos: "center 30%",
@@ -1968,6 +1970,7 @@
             <img src="${p.image}" alt="${p.title}" style="${p.imagePos ? `object-position:${p.imagePos};` : ''}" loading="lazy">
           </div>
         ` : ''}
+        <div class="dwg">${p.code}</div>
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
         <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
