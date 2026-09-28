@@ -1901,28 +1901,24 @@
   // ---- Edit this array to add/update projects. Each one renders as a spec card below. ----
   const projects = [
     {
-      code: "DWG NO. KIN-001",
       title: "Robotic Kinematics & Trajectory Planning",
       desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
       tags: ["MATLAB", "Simulink", "Kinematics"],
       links: []
     },
     {
-      code: "DWG NO. NAV-002",
       title: "ROS2 Autonomous Navigation",
       desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
       tags: ["ROS2", "Embedded Systems", "Python"],
       links: []
     },
     {
-      code: "DWG NO. LEO-003",
       title: "LEO Robotics (Engineering Communication)",
       desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
       tags: ["3D Animation", "Technical Communication"],
       links: []
     },
     {
-      code: "DWG NO. EDGE-004",
       title: "Industrial Edge AI & Vision",
       desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
       tags: ["Computer Vision", "OpenCV", "YOLO"],
@@ -1933,7 +1929,6 @@
   // ---- Research & innovation projects (Bachelor's, Dassault Systèmes–sponsored) ----
   const research = [
     {
-      code: "DWG NO. RES-001",
       title: "Solar Earthen Pot Air Cooler",
       image: "./Project/Dassault Systemes.avif",
       imagePos: "center center",
@@ -1944,7 +1939,6 @@
       ]
     },
     {
-      code: "DWG NO. RES-002",
       title: "Solar Milk Pasteurization",
       image: "./Project/Milk Pasturization.jpg",
       imagePos: "center center",
@@ -1953,7 +1947,6 @@
       links: []
     },
     {
-      code: "DWG NO. RES-003",
       title: "Solar DC Water Pump",
       image: "./Project/DC Water Pump 2.jpg",
       imagePos: "center 30%",
@@ -1975,7 +1968,6 @@
             <img src="${p.image}" alt="${p.title}" style="${p.imagePos ? `object-position:${p.imagePos};` : ''}" loading="lazy">
           </div>
         ` : ''}
-        <div class="dwg">${p.code}</div>
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
         <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
