@@ -66,7 +66,9 @@
   /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
-    background:transparent;
+    background:
+      linear-gradient(90deg, rgba(7,7,7,0.86) 0%, rgba(7,7,7,0.74) 32%, rgba(7,7,7,0.42) 58%, rgba(7,7,7,0.62) 100%),
+      url('./frames/Presentation-Photo.png') center top / cover no-repeat;
     color:#EAF1F8;
   }
   .hero-inner{ position:relative; min-height:calc(100svh - 90px); padding:0 0 6px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(220px, 0.42fr); gap:6px; align-items:center; }
@@ -92,41 +94,28 @@
     display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;
     font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:#9FC0DB;
   }
-  .hero-cta{ margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; }
+  .hero-meta div span{ display:block; color:#5E86A3; font-size:0.72rem; margin-bottom:4px;}
+  .hero-cta{ margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; }
   .hero-visuals{
-    position:relative; display:flex; justify-content:center; align-items:center;
-    width:100%; z-index:2;
+    position:relative; display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
+    min-height:420px; width:100%;
   }
   .hero-photo-wrap{
-    width:100%; max-width:440px; display:flex; justify-content:center; align-items:center;
-  }
-  .hero-photo-card{
-    width:100%; border-radius:14px; overflow:hidden;
-    background:rgba(15, 20, 30, 0.75); border:1px solid rgba(245, 245, 245, 0.2);
-    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 16px 40px rgba(0, 0, 0, 0.65), 0 0 24px rgba(255, 87, 34, 0.12);
-    transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .hero-photo-card:hover{
-    transform:translateY(-5px);
-    border-color:var(--amber);
-    box-shadow:0 22px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 87, 34, 0.22);
+    width:min(100%, 420px); display:flex; justify-content:center; align-items:flex-end;
+    margin-left:8%;
   }
   .hero-photo{
-    display:block; width:100%; height:270px; object-fit:cover; object-position:88% center;
-    transition:transform 0.4s ease;
+    display:block; width:100%; height:auto; max-height:520px; object-fit:contain; object-position:center center;
+    filter:saturate(0.9) brightness(0.82) contrast(1.08);
   }
-  .hero-photo-card:hover .hero-photo{
-    transform:scale(1.03);
+  .hero-video-wrap{ display:flex; justify-content:center; align-items:center; width:min(100%, 300px); margin-top:12px; margin-left:12%; align-self:flex-end; }
+  .hero-video-frame{
+    position:relative; width:100%; overflow:visible; border:none; background:transparent; box-shadow:none; outline:none;
   }
-  .hero-photo-label{
-    padding:10px 14px; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
-    color:#E2E8F0; background:rgba(10, 15, 22, 0.94); border-top:1px solid rgba(245, 245, 245, 0.14);
-    display:flex; align-items:center; gap:8px;
-  }
-  .hero-photo-dot{
-    width:6px; height:6px; border-radius:50%; background:var(--amber);
-    box-shadow:0 0 8px var(--amber);
+  .hero-video-frame::after{ display:none; }
+  .hero-video{
+    width:100%; height:auto; display:block; object-fit:contain; object-position:center center;
+    background:transparent; border:none; outline:none; mix-blend-mode:normal; border-radius:0;
   }
   .video-showcase{
     position:relative; z-index:1; padding:56px 0; border-bottom:1px solid var(--line);
@@ -1283,7 +1272,8 @@
   .tb-menu-btn{ background:rgba(15,15,15,0.7); border-color:var(--line); color:var(--ink); }
   .hero{
     background:
-      linear-gradient(90deg, rgba(7,7,7,0.72) 0%, rgba(7,7,7,0.36) 45%, rgba(7,7,7,0.06) 80%, transparent 100%) !important;
+      linear-gradient(90deg, rgba(7,7,7,0.62) 0%, rgba(7,7,7,0.38) 42%, rgba(7,7,7,0.06) 72%, rgba(7,7,7,0.18) 100%),
+      url('./frames/Presentation-Photo.png') center / cover no-repeat;
     color:#f5f5f5;
   }
   .hero h1{ text-shadow:0 3px 18px rgba(0,0,0,0.85); }
@@ -1434,6 +1424,10 @@
       <div class="hero-eyebrow"><span class="dot"></span> AVAILABLE FOR HIRE — PARIS, FRANCE</div>
       <h1>Robotics &amp; Industry 4.0 Engineer.</h1>
       <p class="role">I build systems where hardware, control loops, and software meet — from AI-assisted diagnostics to data center infrastructure.</p>
+      <div class="hero-meta">
+        <div><span>PROGRAM</span>M.Sc. Robotics &amp; Industry 4.0, ESILV</div>
+        <div><span>RECENT</span>AWS · Data Center Engineering Operations</div>
+      </div>
       <div class="hero-cta">
         <a class="btn primary" href="#projects">View projects</a>
         <a class="btn" href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">GitHub ↗</a>
@@ -1441,16 +1435,6 @@
       </div>
     </div>
 
-    <div class="hero-visuals">
-      <div class="hero-photo-wrap">
-        <div class="hero-photo-card">
-          <img class="hero-photo" src="./frames/Presentation-Photo.png" alt="Shubham Bollu - Engineering Presentation" loading="eager">
-          <div class="hero-photo-label">
-            <span class="hero-photo-dot"></span> Keynote Presentation · Industry 4.0
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1917,24 +1901,28 @@
   // ---- Edit this array to add/update projects. Each one renders as a spec card below. ----
   const projects = [
     {
+      code: "DWG NO. KIN-001",
       title: "Robotic Kinematics & Trajectory Planning",
       desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
       tags: ["MATLAB", "Simulink", "Kinematics"],
       links: []
     },
     {
+      code: "DWG NO. NAV-002",
       title: "ROS2 Autonomous Navigation",
       desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
       tags: ["ROS2", "Embedded Systems", "Python"],
       links: []
     },
     {
+      code: "DWG NO. LEO-003",
       title: "LEO Robotics (Engineering Communication)",
       desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
       tags: ["3D Animation", "Technical Communication"],
       links: []
     },
     {
+      code: "DWG NO. EDGE-004",
       title: "Industrial Edge AI & Vision",
       desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
       tags: ["Computer Vision", "OpenCV", "YOLO"],
@@ -1945,6 +1933,7 @@
   // ---- Research & innovation projects (Bachelor's, Dassault Systèmes–sponsored) ----
   const research = [
     {
+      code: "DWG NO. RES-001",
       title: "Solar Earthen Pot Air Cooler",
       image: "./Project/Dassault Systemes.avif",
       imagePos: "center center",
@@ -1955,6 +1944,7 @@
       ]
     },
     {
+      code: "DWG NO. RES-002",
       title: "Solar Milk Pasteurization",
       image: "./Project/Milk Pasturization.jpg",
       imagePos: "center center",
@@ -1963,6 +1953,7 @@
       links: []
     },
     {
+      code: "DWG NO. RES-003",
       title: "Solar DC Water Pump",
       image: "./Project/DC Water Pump 2.jpg",
       imagePos: "center 30%",
@@ -1984,6 +1975,7 @@
             <img src="${p.image}" alt="${p.title}" style="${p.imagePos ? `object-position:${p.imagePos};` : ''}" loading="lazy">
           </div>
         ` : ''}
+        <div class="dwg">${p.code}</div>
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
         <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
@@ -2185,27 +2177,21 @@
   frameCount = frameFiles.length;
   frames = frameFiles.map((src, index) => {
     const image = new Image();
-    image.onload = () => {
-      if (index === activeFrame) drawFrame(activeFrame);
-    };
     image.src = src;
-    if (image.complete && index === activeFrame) {
-      drawFrame(activeFrame);
-    }
+    image.addEventListener('load', () => {
+      if (index === activeFrame) drawFrame(activeFrame);
+    });
     return image;
   });
 
-  resizeScrollCanvas();
-
-  // Guarantee frame 0 renders immediately on page load
-  const heroFirstFrame = new Image();
-  heroFirstFrame.onload = () => {
-    if (activeFrame === 0) drawFrame(0);
-  };
-  heroFirstFrame.src = frameFiles[0];
-  if (heroFirstFrame.complete && activeFrame === 0) {
-    drawFrame(0);
-  }
+  Promise.all(frames.map(image => new Promise(resolve => {
+    if (image.complete) resolve();
+    else image.addEventListener('load', resolve, { once: true });
+  }))).then(() => {
+    scrubScrollFrame();
+  }).catch(() => {
+    // Keep the dark cinematic fallback if one of the background frames fails to load.
+  });
 
   const robotVideo = document.querySelector('.about-robot-video');
   if (robotVideo) {
