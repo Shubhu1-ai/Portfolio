@@ -2272,28 +2272,24 @@
   const projectsData = {
     en: [
       {
-        code: "DWG NO. KIN-001",
         title: "Robotic Kinematics & Trajectory Planning",
         desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
         tags: ["MATLAB", "Simulink", "Kinematics"],
         links: []
       },
       {
-        code: "DWG NO. NAV-002",
         title: "ROS2 Autonomous Navigation",
         desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
         tags: ["ROS2", "Embedded Systems", "Python"],
         links: []
       },
       {
-        code: "DWG NO. LEO-003",
         title: "LEO Robotics (Engineering Communication)",
         desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
         tags: ["3D Animation", "Technical Communication"],
         links: []
       },
       {
-        code: "DWG NO. EDGE-004",
         title: "Industrial Edge AI & Vision",
         desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
         tags: ["Computer Vision", "OpenCV", "YOLO"],
@@ -2302,28 +2298,24 @@
     ],
     fr: [
       {
-        code: "DWG NO. KIN-001",
         title: "Cinématique Robotique & Planification de Trajectoire",
         desc: "Modélisation et simulation d'architectures robotiques SCARA, RRR et RPP sous MATLAB/Simulink. Établissement des tables de paramètres Denavit-Hartenberg, calcul des Jacobiens et génération de trajectoires polynomiales de degré 5 pour cellules d'usinage robotisées.",
         tags: ["MATLAB", "Simulink", "Cinématique"],
         links: []
       },
       {
-        code: "DWG NO. NAV-002",
         title: "Navigation Autonome ROS2",
         desc: "Développement de nœuds éditeur-abonné en ROS2 pour la navigation autonome de TurtleBot3. Intégration matériel-logiciel via Raspberry Pi et implémentations FPGA/VHDL.",
         tags: ["ROS2", "Systèmes Embarqués", "Python"],
         links: []
       },
       {
-        code: "DWG NO. LEO-003",
         title: "LEO Robotics (Communication Technique & Vulgarisation)",
         desc: "Création et gestion d'une marque de robotique éducative produisant des animations 3D et des schémas visuels décryptant les mécanismes robotiques et composants mécaniques complexes pour un large public.",
         tags: ["Animation 3D", "Communication Technique"],
         links: []
       },
       {
-        code: "DWG NO. EDGE-004",
         title: "IA & Vision Industrielle en Périphérie (Edge)",
         desc: "Conception de pipelines de vision par ordinateur pour la classification des défauts de surface via YOLOv8 et techniques de deep learning avec OpenCV, avec déploiement optimisé pour matériel embarqué.",
         tags: ["Vision par Ordinateur", "OpenCV", "YOLO"],
@@ -2335,7 +2327,6 @@
   const researchData = {
     en: [
       {
-        code: "DWG NO. RES-001",
         title: "Solar Earthen Pot Air Cooler",
         image: "./Project/Dassault Systemes.avif",
         imagePos: "center center",
@@ -2346,7 +2337,6 @@
         ]
       },
       {
-        code: "DWG NO. RES-002",
         title: "Solar Milk Pasteurization",
         image: "./Project/Milk Pasturization.jpg",
         imagePos: "center center",
@@ -2355,7 +2345,6 @@
         links: []
       },
       {
-        code: "DWG NO. RES-003",
         title: "Solar DC Water Pump",
         image: "./Project/DC Water Pump 2.jpg",
         imagePos: "center 30%",
@@ -2366,7 +2355,6 @@
     ],
     fr: [
       {
-        code: "DWG NO. RES-001",
         title: "Refroidisseur d'air solaire en pot d'argile",
         image: "./Project/Dassault Systemes.avif",
         imagePos: "center center",
@@ -2377,7 +2365,6 @@
         ]
       },
       {
-        code: "DWG NO. RES-002",
         title: "Pasteurisation solaire du lait",
         image: "./Project/Milk Pasturization.jpg",
         imagePos: "center center",
@@ -2386,7 +2373,6 @@
         links: []
       },
       {
-        code: "DWG NO. RES-003",
         title: "Pompe à eau solaire CC",
         image: "./Project/DC Water Pump 2.jpg",
         imagePos: "center 30%",
@@ -2577,7 +2563,6 @@
             <img src="${p.image}" alt="${p.title}" style="${p.imagePos ? `object-position:${p.imagePos};` : ''}" loading="lazy">
           </div>
         ` : ''}
-        <div class="dwg">${p.code}</div>
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
         <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
