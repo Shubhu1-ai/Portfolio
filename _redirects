@@ -1,4 +1,7 @@
 # Netlify redirects and clean routing
-/Main.html    /                              301!
-/cv           /Project/Shubham_Bollu_CV.pdf  302
-/resume       /Project/Shubham_Bollu_CV.pdf  302
+/Main.html       /                                        301!
+/cv              /Project/Shubham_Bollu_CV.pdf            302
+/resume          /Project/Shubham_Bollu_CV.pdf            302
+/cv-en           /Project/Shubham_Bollu_CV.pdf            302
+/cv-fr           /Project/Shubham_Bollu_CV_Robotique.pdf  302
+/cv-robotique    /Project/Shubham_Bollu_CV_Robotique.pdf  302

@@ -102,6 +102,71 @@
   .lang-option .lang-check{ font-size:0.75rem; opacity:0; color:var(--amber); font-weight:bold; }
   .lang-option.active .lang-check{ opacity:1; }
 
+  /* CV Selector Dropdowns (Hero CTA & Navigation) */
+  .cv-dropdown{ position:relative; display:inline-block; }
+  .cv-toggle-btn{
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    background:none; border:1px solid #3E617F;
+  }
+  .cv-toggle-btn .btn-arrow{ font-size:0.7rem; transition:transform 0.2s ease; }
+  .cv-dropdown.open .cv-toggle-btn{ border-color:var(--amber); color:#fff; }
+  .cv-dropdown.open .cv-toggle-btn .btn-arrow{ transform:rotate(180deg); color:var(--amber); }
+
+  .cv-menu{
+    position:absolute; top:calc(100% + 8px); left:0; min-width:280px;
+    background:#0d1520; border:1px solid rgba(201, 214, 227, 0.35); border-radius:8px;
+    box-shadow:0 18px 42px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.5);
+    padding:8px; display:none; flex-direction:column; gap:6px; z-index:1000;
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  }
+  .cv-dropdown.open .cv-menu{ display:flex; animation:langDropAnim 0.15s ease-out; }
+
+  .cv-menu-item{
+    display:flex; align-items:center; gap:12px; padding:10px 14px;
+    text-decoration:none; border-radius:6px; color:#dce7f0;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+    transition:all 0.16s ease;
+  }
+  .cv-menu-item:hover, .cv-menu-item:focus-visible{
+    background:rgba(232, 163, 61, 0.14); border-color:var(--amber); color:#ffffff;
+    transform:translateX(2px);
+  }
+  .cv-menu-flag{ font-size:1.35rem; line-height:1; }
+  .cv-menu-info{ display:flex; flex-direction:column; flex:1; }
+  .cv-menu-title{ font-family:'IBM Plex Mono', monospace; font-size:0.82rem; font-weight:600; color:#ffffff; }
+  .cv-menu-desc{ font-family:'IBM Plex Sans', sans-serif; font-size:0.72rem; color:#8FA3B3; margin-top:2px; }
+  .cv-menu-icon{ font-family:'IBM Plex Mono', monospace; font-size:0.9rem; color:var(--amber); }
+
+  /* Nav CV Dropdown */
+  .nav-cv-dropdown{ position:relative; display:inline-block; }
+  .nav-cv-btn{
+    background:none; border:none; padding:0; font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; color:var(--slate); border-bottom:1px solid transparent;
+    padding-bottom:2px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;
+  }
+  .nav-cv-btn:hover{ color:var(--ink); border-bottom-color:var(--amber); }
+  .nav-cv-arrow{ font-size:0.65rem; transition:transform 0.2s ease; }
+  .nav-cv-dropdown.open .nav-cv-btn{ color:var(--ink); border-bottom-color:var(--amber); }
+  .nav-cv-dropdown.open .nav-cv-arrow{ transform:rotate(180deg); }
+  .nav-cv-menu{
+    position:absolute; top:calc(100% + 10px); right:0; min-width:180px;
+    background:#0d1520; border:1px solid rgba(201, 214, 227, 0.35); border-radius:6px;
+    box-shadow:0 16px 36px rgba(0,0,0,0.75); padding:6px; display:none; flex-direction:column;
+    gap:4px; z-index:9999; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  }
+  .nav-cv-dropdown.open .nav-cv-menu{ display:flex; animation:langDropAnim 0.15s ease-out; }
+  .nav-cv-item{
+    display:flex; align-items:center; gap:9px; padding:8px 12px;
+    text-decoration:none; color:#d2dce6; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; border-radius:4px; transition:all 0.15s ease;
+  }
+  .nav-cv-item:hover, .nav-cv-item:focus-visible{
+    background:rgba(232, 163, 61, 0.15); color:var(--amber);
+  }
+  .nav-cv-flag{ font-size:1rem; line-height:1; }
+  .nav-cv-name{ flex:1; }
+  .nav-cv-icon{ font-size:0.75rem; color:var(--amber); }
+
   /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
@@ -1231,6 +1296,10 @@
   @media (max-width:760px){
     .tb-actions{ gap:8px; }
     nav.tb-links{ display:none; }
+    .nav-cv-dropdown{ width:100%; }
+    .nav-cv-btn{ width:100%; justify-content:space-between; padding:6px 0; color:#cbd3d8; }
+    .nav-cv-menu{ position:static; min-width:100%; box-shadow:none; border:1px solid rgba(255,255,255,0.1); margin-top:6px; }
+    .cv-menu{ left:0; right:auto; max-width:calc(100vw - 36px); min-width:240px; }
     .tb-menu-btn{ display:block; }
     .about-grid, .exp-item{ grid-template-columns:1fr; gap:24px; }
     .feature{ padding:28px 18px; }
@@ -1458,7 +1527,23 @@
         <a href="#skills" data-i18n="nav.skills">Skills</a>
         <a href="#certifications" data-i18n="nav.certifications">Certifications</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
-        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="nav.cv">CV ↗</a>
+        <div class="nav-cv-dropdown" id="navCvDropdown">
+          <button class="nav-cv-btn" id="navCvBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-i18n="nav.cv">CV</span> <span class="nav-cv-arrow">▾</span>
+          </button>
+          <div class="nav-cv-menu" id="navCvMenu" role="menu">
+            <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" class="nav-cv-item" role="menuitem">
+              <span class="nav-cv-flag">🇬🇧</span>
+              <span class="nav-cv-name" data-i18n="cv.enShort">English CV</span>
+              <span class="nav-cv-icon">↗</span>
+            </a>
+            <a href="./Project/Shubham_Bollu_CV_Robotique.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV_Robotique.pdf" class="nav-cv-item" role="menuitem">
+              <span class="nav-cv-flag">🇫🇷</span>
+              <span class="nav-cv-name" data-i18n="cv.frShort">CV Français</span>
+              <span class="nav-cv-icon">↗</span>
+            </a>
+          </div>
+        </div>
       </nav>
       <div class="lang-selector" id="langSelector">
         <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
@@ -1500,7 +1585,29 @@
       </div>
       <div class="hero-cta">
         <a class="btn primary" href="#projects" data-i18n="hero.ctaProjects">View projects</a>
-        <a class="btn" href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="hero.ctaCv">Download CV ↓</a>
+        <div class="cv-dropdown" id="heroCvDropdown">
+          <button class="btn cv-toggle-btn" id="heroCvBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-i18n="hero.ctaCv">Download CV</span> <span class="btn-arrow">▾</span>
+          </button>
+          <div class="cv-menu" id="heroCvMenu" role="menu">
+            <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" class="cv-menu-item" role="menuitem">
+              <span class="cv-menu-flag">🇬🇧</span>
+              <div class="cv-menu-info">
+                <span class="cv-menu-title" data-i18n="cv.enTitle">English CV</span>
+                <span class="cv-menu-desc" data-i18n="cv.enDesc">Mechanical &amp; Robotics · International</span>
+              </div>
+              <span class="cv-menu-icon">↓</span>
+            </a>
+            <a href="./Project/Shubham_Bollu_CV_Robotique.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV_Robotique.pdf" class="cv-menu-item" role="menuitem">
+              <span class="cv-menu-flag">🇫🇷</span>
+              <div class="cv-menu-info">
+                <span class="cv-menu-title" data-i18n="cv.frTitle">CV Français</span>
+                <span class="cv-menu-desc" data-i18n="cv.frDesc">Robotique &amp; Industrie 4.0 · France</span>
+              </div>
+              <span class="cv-menu-icon">↓</span>
+            </a>
+          </div>
+        </div>
         <a class="btn" href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">GitHub ↗</a>
         <a class="btn" href="#contact" data-i18n="hero.ctaContact">Contact</a>
       </div>
@@ -1530,7 +1637,12 @@
           <dt data-i18n="about.bachelorLabel">Bachelor's</dt><dd data-i18n="about.bachelorVal">NK Orchid Engineering College, India — Mechanical Engineering (2019–2022), CGPA 9.31/10</dd>
           <dt data-i18n="about.roleLabel">Recent role</dt><dd data-i18n="about.roleVal">DCEO Intern, Amazon Web Services</dd>
           <dt data-i18n="about.contactLabel">Contact</dt><dd><a href="mailto:shubhambollu1@gmail.com">shubhambollu1@gmail.com</a></dd>
-          <dt data-i18n="about.resumeLabel">Resume</dt><dd><a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="about.resumeVal">Download CV (PDF) ↗</a></dd>
+          <dt data-i18n="about.resumeLabel">Resume / CV</dt>
+          <dd>
+            <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="about.resumeEn">English (PDF) ↗</a>
+            <span style="opacity:0.4; margin:0 6px;">·</span>
+            <a href="./Project/Shubham_Bollu_CV_Robotique.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV_Robotique.pdf" data-i18n="about.resumeFr">Français (PDF) ↗</a>
+          </dd>
         </dl>
       </div>
       <div class="about-robot-stage">
@@ -1888,7 +2000,8 @@
         <a href="mailto:shubhambollu1@gmail.com">shubhambollu1@gmail.com</a>
         <a href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">github.com/Shubhu1-ai</a>
         <a href="https://www.linkedin.com/in/shubham-bollu" id="linkedinLink" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="contact.cv">Download CV ↗</a>
+        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="contact.cvEn">English CV (PDF) ↗</a>
+        <a href="./Project/Shubham_Bollu_CV_Robotique.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV_Robotique.pdf" data-i18n="contact.cvFr">CV Français (Robotique) ↗</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -1983,7 +2096,7 @@
       "nav.skills": "Skills",
       "nav.certifications": "Certifications",
       "nav.contact": "Contact",
-      "nav.cv": "CV ↗",
+      "nav.cv": "CV",
       "nav.menu": "MENU",
 
       "hero.eyebrow": "AVAILABLE FOR HIRE — PARIS, FRANCE",
@@ -1994,8 +2107,15 @@
       "hero.metaRecentLabel": "RECENT",
       "hero.metaRecentVal": "AWS · Data Center Engineering Operations",
       "hero.ctaProjects": "View projects",
-      "hero.ctaCv": "Download CV ↓",
+      "hero.ctaCv": "Download CV",
       "hero.ctaContact": "Contact",
+
+      "cv.enTitle": "English CV",
+      "cv.frTitle": "CV Français",
+      "cv.enDesc": "Mechanical &amp; Robotics · International",
+      "cv.frDesc": "Robotique &amp; Industrie 4.0 · France",
+      "cv.enShort": "English CV",
+      "cv.frShort": "CV Français",
 
       "about.title": "About",
       "about.p": "My engineering path started on the shop floor at Bosch, where I learned how real manufacturing systems behave under pressure: tolerances, uptime, and process reliability are not abstract ideas, they are daily constraints. Later, at Tata Consultancy Services, I worked on mission-critical Azure and SQL infrastructure for an oil &amp; gas client, where one issue could disrupt production and create immediate operational impact. That combination of hands-on manufacturing and high-availability cloud systems taught me how to design for connected, data-driven operations rather than isolated components. It is the reason I now focus on robotics, edge intelligence, and industrial systems that need to work reliably in the real world.",
@@ -2008,7 +2128,9 @@
       "about.roleLabel": "Recent role",
       "about.roleVal": "DCEO Intern, Amazon Web Services",
       "about.contactLabel": "Contact",
-      "about.resumeLabel": "Resume",
+      "about.resumeLabel": "Resume / CV",
+      "about.resumeEn": "English (PDF) ↗",
+      "about.resumeFr": "Français (PDF) ↗",
       "about.resumeVal": "Download CV (PDF) ↗",
 
       "experience.title": "Experience",
@@ -2074,7 +2196,9 @@
 
       "contact.title": "Let's build something.",
       "contact.sub": "Open to robotics, automation, and AI infrastructure roles — based in Paris, happy to discuss relocation.",
-      "contact.cv": "Download CV ↗"
+      "contact.cv": "Download CV ↗",
+      "contact.cvEn": "English CV (PDF) ↗",
+      "contact.cvFr": "CV Français (Robotique) ↗"
     },
     fr: {
       "nav.about": "À propos",
@@ -2084,7 +2208,7 @@
       "nav.skills": "Compétences",
       "nav.certifications": "Certifications",
       "nav.contact": "Contact",
-      "nav.cv": "CV ↗",
+      "nav.cv": "CV",
       "nav.menu": "MENU",
 
       "hero.eyebrow": "DISPONIBLE POUR EMBAUCHE — PARIS, FRANCE",
@@ -2095,8 +2219,15 @@
       "hero.metaRecentLabel": "EXPÉRIENCE",
       "hero.metaRecentVal": "AWS · Opérations d'Ingénierie Data Center",
       "hero.ctaProjects": "Voir les projets",
-      "hero.ctaCv": "Télécharger le CV ↓",
+      "hero.ctaCv": "Télécharger le CV",
       "hero.ctaContact": "Contact",
+
+      "cv.enTitle": "English CV",
+      "cv.frTitle": "CV Français",
+      "cv.enDesc": "Génie Mécanique &amp; Robotique · International",
+      "cv.frDesc": "Robotique &amp; Industrie 4.0 · France",
+      "cv.enShort": "CV Anglais",
+      "cv.frShort": "CV Français",
 
       "about.title": "À propos",
       "about.p": "Mon parcours d'ingénieur a débuté en atelier chez Bosch, où j'ai appris comment les systèmes de fabrication réels fonctionnent sous contrainte : les tolérances, la disponibilité opérationnelle et la fiabilité des processus ne sont pas des concepts abstraits, mais des impératifs quotidiens. Par la suite, chez Tata Consultancy Services, j'ai géré des infrastructures critiques Azure et SQL pour un client du secteur pétrolier et gazier, où le moindre incident pouvait paralyser la production avec un impact immédiat. Cette combinaison d'ingénierie terrain et de systèmes cloud haute disponibilité m'a appris à concevoir des architectures connectées et axées sur les données plutôt que des composants isolés. C'est pourquoi je me consacre aujourd'hui à la robotique, à l'intelligence en périphérie (Edge AI) et aux systèmes industriels exigeant une fiabilité absolue en conditions réelles.",
@@ -2109,7 +2240,9 @@
       "about.roleLabel": "Poste récent",
       "about.roleVal": "Stagiaire DCEO, Amazon Web Services",
       "about.contactLabel": "Contact",
-      "about.resumeLabel": "Curriculum",
+      "about.resumeLabel": "CV / Résumé",
+      "about.resumeEn": "Anglais (PDF) ↗",
+      "about.resumeFr": "Français (PDF) ↗",
       "about.resumeVal": "Télécharger le CV (PDF) ↗",
 
       "experience.title": "Expérience",
@@ -2175,7 +2308,9 @@
 
       "contact.title": "Donnons vie à vos projets.",
       "contact.sub": "Ouvert aux opportunités en robotique, automatisation et infrastructure IA — basé à Paris, ouvert aux opportunités avec mobilité géographique.",
-      "contact.cv": "Télécharger le CV ↗"
+      "contact.cv": "Télécharger le CV ↗",
+      "contact.cvEn": "CV Anglais (PDF) ↗",
+      "contact.cvFr": "CV Français (Robotique) ↗"
     }
   };
 
@@ -2549,6 +2684,10 @@
 
     function toggleDropdown(e) {
       if (e) e.stopPropagation();
+      const heroCv = document.getElementById('heroCvDropdown');
+      const navCv = document.getElementById('navCvDropdown');
+      if (heroCv) heroCv.classList.remove('open');
+      if (navCv) navCv.classList.remove('open');
       const isOpen = selector.classList.toggle('open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
@@ -2580,6 +2719,61 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && selector.classList.contains('open')) {
         closeDropdown();
+      }
+    });
+  }
+
+  // CV Dropdowns Controller (Hero CTA & Top Navigation)
+  function initCvDropdowns() {
+    const heroCv = document.getElementById('heroCvDropdown');
+    const heroBtn = document.getElementById('heroCvBtn');
+    const navCv = document.getElementById('navCvDropdown');
+    const navBtn = document.getElementById('navCvBtn');
+    const langSel = document.getElementById('langSelector');
+
+    function closeAllCv() {
+      if (heroCv) {
+        heroCv.classList.remove('open');
+        if (heroBtn) heroBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (navCv) {
+        navCv.classList.remove('open');
+        if (navBtn) navBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function setupDropdown(dropdown, btn) {
+      if (!dropdown || !btn) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = !dropdown.classList.contains('open');
+        closeAllCv();
+        if (langSel) langSel.classList.remove('open');
+
+        if (willOpen) {
+          dropdown.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+
+    setupDropdown(heroCv, heroBtn);
+    setupDropdown(navCv, navBtn);
+
+    document.addEventListener('click', (e) => {
+      if (heroCv && !heroCv.contains(e.target)) {
+        heroCv.classList.remove('open');
+        if (heroBtn) heroBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (navCv && !navCv.contains(e.target)) {
+        navCv.classList.remove('open');
+        if (navBtn) navBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAllCv();
       }
     });
   }
@@ -3043,6 +3237,7 @@
 
   function initApp() {
     initLangSelector();
+    initCvDropdowns();
     initCertModal();
     initExpModal();
 
