@@ -1630,7 +1630,6 @@
           <div class="exp-card-badge">
             <img src="./skills-icons/aws.svg" alt="AWS" width="26" height="18">
           </div>
-          <div class="exp-card-tag" data-i18n="experience.aws.date">APR 2026 — AUG 2026</div>
         </div>
         <div class="exp-card-body">
           <div>
@@ -2091,7 +2090,7 @@
       "experience.sub": "Industrial engineering and high-availability operations. Click any experience card to explore facility systems, technical achievements, and operational impact.",
       "experience.cta": "Click to see description",
       "experience.aws.role": "Data Center Engineering Operations Intern",
-      "experience.aws.date": "APR 2026 — AUG 2026",
+      "experience.aws.date": "",
       "experience.aws.loc": "Paris, France",
       "experience.tcs.role": "Data &amp; Automation Engineer",
       "experience.tcs.date": "JUN 2023 — AUG 2025",
@@ -2196,7 +2195,7 @@
       "experience.sub": "Ingénierie industrielle et opérations haute disponibilité. Cliquez sur une carte pour explorer les systèmes d'infrastructure, réalisations techniques et impacts opérationnels.",
       "experience.cta": "Cliquer pour voir la description",
       "experience.aws.role": "Stagiaire Opérations d'Ingénierie Data Center",
-      "experience.aws.date": "AVR 2026 — AOÛ 2026",
+      "experience.aws.date": "",
       "experience.aws.loc": "Paris, France",
       "experience.tcs.role": "Ingénieur Données &amp; Automatisation",
       "experience.tcs.date": "JUIN 2023 — AOÛ 2025",
@@ -2422,7 +2421,7 @@
         role: "Data Center Engineering Operations Intern",
         company: "Amazon Web Services (AWS)",
         location: "Paris, France",
-        dates: "APR 2026 — AUG 2026",
+        dates: "",
         logo: "./skills-icons/aws.svg",
         images: [
           {
@@ -2488,7 +2487,7 @@
         role: "Stagiaire Opérations d'Ingénierie Data Center",
         company: "Amazon Web Services (AWS)",
         location: "Paris, France",
-        dates: "AVR 2026 — AOÛ 2026",
+        dates: "",
         logo: "./skills-icons/aws.svg",
         images: [
           {
@@ -3086,7 +3085,7 @@
 
       if (roleEl) roleEl.textContent = data.role;
       if (metaEl) {
-        metaEl.innerHTML = `<span>${data.company}</span> <span>·</span> <span>${data.location}</span> <span class="date-badge">${data.dates}</span>`;
+        metaEl.innerHTML = `<span>${data.company}</span> <span>·</span> <span>${data.location}</span>${data.dates ? ` <span class="date-badge">${data.dates}</span>` : ''}`;
       }
       if (logoEl) {
         logoEl.src = data.logo;
