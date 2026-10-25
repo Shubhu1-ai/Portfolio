@@ -689,7 +689,7 @@
     position:relative;
     z-index:2;
     width:100%;
-    max-width:820px;
+    max-width:920px;
     max-height:92vh;
     background:#0D141F !important;
     border:1px solid rgba(201, 214, 227, 0.22);
@@ -790,22 +790,25 @@
   .exp-modal-slider-wrap{
     position:relative;
     width:100%;
-    height:380px;
+    height:460px;
     background:#05090E;
     overflow:hidden;
     display:flex;
     align-items:center;
     justify-content:center;
   }
-  @media (max-width:600px){
-    .exp-modal-slider-wrap{ height:250px; }
+  @media (max-width:760px){
+    .exp-modal-slider-wrap{ height:340px; }
+  }
+  @media (max-width:500px){
+    .exp-modal-slider-wrap{ height:270px; }
   }
   .exp-modal-ambient-bg{
     position:absolute;
     inset:-25px;
     background-size:cover;
     background-position:center;
-    filter:blur(24px) brightness(0.25) saturate(1.2);
+    filter:blur(28px) brightness(0.3) saturate(1.2);
     transform:scale(1.1);
     pointer-events:none;
     z-index:0;
@@ -819,17 +822,24 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:8px 0;
+    padding:0;
+    cursor:zoom-in;
+  }
+  .exp-modal-slide-stage.fit-contain{
+    cursor:zoom-out;
   }
   .exp-modal-img{
+    width:100%;
+    height:100%;
     max-width:100%;
     max-height:100%;
-    width:auto;
-    height:100%;
-    object-fit:contain;
+    object-fit:cover;
+    object-position:center 25%;
     display:block;
     transition:opacity 0.35s ease-in-out;
-    filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+  }
+  .exp-modal-slide-stage.fit-contain .exp-modal-img{
+    object-fit:contain;
   }
   .exp-slider-btn{
     position:absolute;
@@ -862,7 +872,7 @@
   .exp-slider-btn.next{ right:12px; }
   .exp-slider-dots{
     position:absolute;
-    bottom:34px;
+    bottom:42px;
     left:50%;
     transform:translateX(-50%);
     z-index:10;
@@ -3121,6 +3131,9 @@
         tagsEl.innerHTML = data.tags.map(t => `<span class="exp-modal-tag">${t}</span>`).join('');
       }
 
+      const stageEl = modal.querySelector('.exp-modal-slide-stage');
+      if (stageEl) stageEl.classList.remove('fit-contain');
+
       modal.classList.add('active');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -3149,6 +3162,14 @@
         e.stopPropagation();
         renderSlide(currentSlideIndex + 1);
         startAutoSlide();
+      });
+    }
+
+    if (imgEl) {
+      imgEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const stage = imgEl.closest('.exp-modal-slide-stage');
+        if (stage) stage.classList.toggle('fit-contain');
       });
     }
 
