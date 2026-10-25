@@ -54,14 +54,53 @@
   .tb-row{
     display:flex; align-items:center; justify-content:space-between;
     padding:14px 0; max-width:var(--max); margin:0 auto; padding-left:28px; padding-right:28px;
+    position:relative;
   }
   .tb-id{ display:flex; align-items:baseline; gap:10px; }
   .tb-id .name{ font-family:'IBM Plex Serif', serif; font-weight:600; font-size:1.05rem; }
   .tb-id .tag{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--slate); letter-spacing:.02em; }
-  nav.tb-links{ display:flex; gap:26px; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; }
+  .tb-actions{ display:flex; align-items:center; gap:20px; }
+  nav.tb-links{ display:flex; gap:22px; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; }
   nav.tb-links a{ text-decoration:none; color:var(--slate); border-bottom:1px solid transparent; padding-bottom:2px; }
   nav.tb-links a:hover{ color:var(--ink); border-bottom-color:var(--amber); }
   .tb-menu-btn{ display:none; background:none; border:1px solid var(--line); padding:8px 10px; font-family:'IBM Plex Mono',monospace; cursor:pointer; }
+
+  /* Language Selector Dropdown */
+  .lang-selector{ position:relative; display:inline-block; font-family:'IBM Plex Mono', monospace; }
+  .lang-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(27, 58, 92, 0.08); border:1px solid var(--line);
+    color:var(--ink); padding:6px 10px; font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem; font-weight:600; letter-spacing:0.04em; border-radius:4px;
+    cursor:pointer; transition:all 0.18s ease;
+  }
+  .lang-btn:hover, .lang-btn:focus-visible{
+    background:rgba(232, 163, 61, 0.15); border-color:var(--amber); color:var(--blueprint-deep);
+  }
+  .lang-btn .lang-globe{ color:var(--slate); transition:color 0.18s ease; }
+  .lang-btn:hover .lang-globe{ color:var(--amber); }
+  .lang-btn .lang-caret{ transition:transform 0.2s ease; }
+  .lang-selector.open .lang-btn .lang-caret{ transform:rotate(180deg); }
+  .lang-selector.open .lang-btn{ border-color:var(--amber); box-shadow:0 0 0 2px rgba(232, 163, 61, 0.2); }
+  .lang-dropdown{
+    position:absolute; top:calc(100% + 6px); right:0; min-width:130px;
+    background:#101721; border:1px solid rgba(201, 214, 227, 0.25); border-radius:6px;
+    box-shadow:0 12px 32px rgba(0,0,0,0.5); padding:6px; display:none; flex-direction:column;
+    gap:2px; z-index:100; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  }
+  .lang-selector.open .lang-dropdown{ display:flex; animation:langDropAnim 0.15s ease-out; }
+  @keyframes langDropAnim{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:translateY(0); } }
+  .lang-option{
+    display:flex; align-items:center; gap:8px; padding:7px 10px; background:transparent;
+    border:none; color:#cbd3d8; font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
+    cursor:pointer; border-radius:4px; text-align:left; width:100%; transition:all 0.15s ease;
+  }
+  .lang-option:hover, .lang-option:focus-visible{ background:rgba(255,255,255,0.08); color:#ffffff; }
+  .lang-option.active{ color:var(--amber); font-weight:600; background:rgba(232, 163, 61, 0.12); }
+  .lang-option .lang-flag{ font-size:0.95rem; line-height:1; }
+  .lang-option .lang-name{ flex:1; }
+  .lang-option .lang-check{ font-size:0.7rem; opacity:0; color:var(--amber); }
+  .lang-option.active .lang-check{ opacity:1; }
 
   /* ---------- Hero ---------- */
   .hero{
@@ -1190,6 +1229,7 @@
   .foot-bottom{ margin-top:48px; padding-top:20px; border-top:1px solid #2A4964; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:#5E86A3; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
 
   @media (max-width:760px){
+    .tb-actions{ gap:8px; }
     nav.tb-links{ display:none; }
     .tb-menu-btn{ display:block; }
     .about-grid, .exp-item{ grid-template-columns:1fr; gap:24px; }
@@ -1405,35 +1445,60 @@
     <div class="tb-id">
       <span class="name">SHUBHAM BOLLU</span>
     </div>
-    <nav class="tb-links">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#research">Research</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#certifications">Certifications</a>
-      <a href="#contact">Contact</a>
-      <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf">CV ↗</a>
-    </nav>
-    <button class="tb-menu-btn" id="menuBtn" aria-label="Toggle navigation">MENU</button>
+    <div class="tb-actions">
+      <nav class="tb-links">
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#research" data-i18n="nav.research">Research</a>
+        <a href="#projects" data-i18n="nav.projects">Projects</a>
+        <a href="#skills" data-i18n="nav.skills">Skills</a>
+        <a href="#certifications" data-i18n="nav.certifications">Certifications</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="nav.cv">CV ↗</a>
+      </nav>
+      <div class="lang-selector" id="langSelector">
+        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
+          <svg class="lang-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <span id="currentLangLabel">EN</span>
+          <svg class="lang-caret" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown" role="menu">
+          <button class="lang-option active" data-lang="en" type="button" role="menuitem">
+            <span class="lang-flag">🇬🇧</span>
+            <span class="lang-name">English</span>
+            <span class="lang-check">✓</span>
+          </button>
+          <button class="lang-option" data-lang="fr" type="button" role="menuitem">
+            <span class="lang-flag">🇫🇷</span>
+            <span class="lang-name">Français</span>
+            <span class="lang-check">✓</span>
+          </button>
+        </div>
+      </div>
+      <button class="tb-menu-btn" id="menuBtn" aria-label="Toggle navigation" data-i18n="nav.menu">MENU</button>
+    </div>
   </div>
 </header>
 
 <section class="hero" style="padding-bottom:0; border:none;">
   <div class="wrap hero-inner">
     <div class="hero-text">
-      <div class="hero-eyebrow"><span class="dot"></span> AVAILABLE FOR HIRE — PARIS, FRANCE</div>
-      <h1>Robotics &amp; Industry 4.0 Engineer.</h1>
-      <p class="role">I build systems where robots, simulation and software meet, from kinematics and trajectory planning to edge AI.</p>
+      <div class="hero-eyebrow"><span class="dot"></span> <span data-i18n="hero.eyebrow">AVAILABLE FOR HIRE — PARIS, FRANCE</span></div>
+      <h1 data-i18n="hero.title">Robotics &amp; Industry 4.0 Engineer.</h1>
+      <p class="role" data-i18n="hero.tagline">I build systems where robots, simulation and software meet, from kinematics and trajectory planning to edge AI.</p>
       <div class="hero-meta">
-        <div><span>PROGRAM</span>M.Sc. Robotics &amp; Industry 4.0, ESILV</div>
-        <div><span>RECENT</span>AWS · Data Center Engineering Operations</div>
+        <div><span data-i18n="hero.metaProgramLabel">PROGRAM</span><span data-i18n="hero.metaProgramVal">M.Sc. Robotics &amp; Industry 4.0, ESILV</span></div>
+        <div><span data-i18n="hero.metaRecentLabel">RECENT</span><span data-i18n="hero.metaRecentVal">AWS · Data Center Engineering Operations</span></div>
       </div>
       <div class="hero-cta">
-        <a class="btn primary" href="#projects">View projects</a>
-        <a class="btn" href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf">Download CV ↓</a>
+        <a class="btn primary" href="#projects" data-i18n="hero.ctaProjects">View projects</a>
+        <a class="btn" href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="hero.ctaCv">Download CV ↓</a>
         <a class="btn" href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">GitHub ↗</a>
-        <a class="btn" href="#contact">Contact</a>
+        <a class="btn" href="#contact" data-i18n="hero.ctaContact">Contact</a>
       </div>
     </div>
 
@@ -1442,10 +1507,10 @@
 
 <section id="about">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">01</span><h2>About</h2></div>
+    <div class="sec-head"><span class="sec-num">01</span><h2 data-i18n="about.title">About</h2></div>
     <div class="about-grid">
       <div class="about-col-left">
-        <p>
+        <p data-i18n="about.p">
           My engineering path started on the shop floor at Bosch, where I learned how real manufacturing
           systems behave under pressure: tolerances, uptime, and process reliability are not abstract ideas,
           they are daily constraints. Later, at Tata Consultancy Services, I worked on mission-critical Azure
@@ -1456,12 +1521,12 @@
           reliably in the real world.
         </p>
         <dl class="facts">
-          <dt>Location</dt><dd>Paris, France</dd>
-          <dt>Master's</dt><dd>École Supérieure d'Ingénieurs Léonard-de-Vinci (ESILV) -  Robotics &amp; Industry 4.0 (2025–2027)</dd>
-          <dt>Bachelor's</dt><dd>NK Orchid Engineering College, India — Mechanical Engineering (2019–2022), CGPA 9.31/10</dd>
-          <dt>Recent role</dt><dd>DCEO Intern, Amazon Web Services</dd>
-          <dt>Contact</dt><dd><a href="mailto:shubhambollu1@gmail.com">shubhambollu1@gmail.com</a></dd>
-          <dt>Resume</dt><dd><a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf">Download CV (PDF) ↗</a></dd>
+          <dt data-i18n="about.locLabel">Location</dt><dd data-i18n="about.locVal">Paris, France</dd>
+          <dt data-i18n="about.masterLabel">Master's</dt><dd data-i18n="about.masterVal">École Supérieure d'Ingénieurs Léonard-de-Vinci (ESILV) -  Robotics &amp; Industry 4.0 (2025–2027)</dd>
+          <dt data-i18n="about.bachelorLabel">Bachelor's</dt><dd data-i18n="about.bachelorVal">NK Orchid Engineering College, India — Mechanical Engineering (2019–2022), CGPA 9.31/10</dd>
+          <dt data-i18n="about.roleLabel">Recent role</dt><dd data-i18n="about.roleVal">DCEO Intern, Amazon Web Services</dd>
+          <dt data-i18n="about.contactLabel">Contact</dt><dd><a href="mailto:shubhambollu1@gmail.com">shubhambollu1@gmail.com</a></dd>
+          <dt data-i18n="about.resumeLabel">Resume</dt><dd><a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="about.resumeVal">Download CV (PDF) ↗</a></dd>
         </dl>
       </div>
       <div class="about-robot-stage">
@@ -1476,8 +1541,8 @@
 
 <section id="experience">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">02</span><h2>Experience</h2></div>
-    <p class="sec-sub">Industrial engineering and high-availability operations. Click any experience card to explore facility systems, technical achievements, and operational impact.</p>
+    <div class="sec-head"><span class="sec-num">02</span><h2 data-i18n="experience.title">Experience</h2></div>
+    <p class="sec-sub" data-i18n="experience.sub">Industrial engineering and high-availability operations. Click any experience card to explore facility systems, technical achievements, and operational impact.</p>
     
     <div class="exp-cards-grid">
       <!-- AWS Card -->
@@ -1488,19 +1553,19 @@
           <div class="exp-card-badge">
             <img src="./skills-icons/aws.svg" alt="AWS" width="26" height="18">
           </div>
-          <div class="exp-card-tag">APR 2026 — AUG 2026</div>
+          <div class="exp-card-tag" data-i18n="experience.aws.date">APR 2026 — AUG 2026</div>
         </div>
         <div class="exp-card-body">
           <div>
-            <h3>Data Center Engineering Operations Intern</h3>
+            <h3 data-i18n="experience.aws.role">Data Center Engineering Operations Intern</h3>
             <div class="exp-card-company">Amazon Web Services (AWS)</div>
             <div class="exp-card-loc">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Paris, France
+              <span data-i18n="experience.aws.loc">Paris, France</span>
             </div>
           </div>
           <div class="exp-card-cta">
-            <span>Click to see description</span>
+            <span data-i18n="experience.cta">Click to see description</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
           </div>
         </div>
@@ -1514,19 +1579,19 @@
           <div class="exp-card-badge">
             <img src="./skills-icons/tcs.svg" alt="TCS" width="38" height="18">
           </div>
-          <div class="exp-card-tag">JUN 2023 — AUG 2025</div>
+          <div class="exp-card-tag" data-i18n="experience.tcs.date">JUN 2023 — AUG 2025</div>
         </div>
         <div class="exp-card-body">
           <div>
-            <h3>Data &amp; Automation Engineer</h3>
+            <h3 data-i18n="experience.tcs.role">Data &amp; Automation Engineer</h3>
             <div class="exp-card-company">Tata Consultancy Services</div>
             <div class="exp-card-loc">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Pune, India
+              <span data-i18n="experience.tcs.loc">Pune, India</span>
             </div>
           </div>
           <div class="exp-card-cta">
-            <span>Click to see description</span>
+            <span data-i18n="experience.cta">Click to see description</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
           </div>
         </div>
@@ -1540,19 +1605,19 @@
           <div class="exp-card-badge">
             <img src="./skills-icons/bosch.svg" alt="Bosch" width="48" height="18">
           </div>
-          <div class="exp-card-tag">JAN 2023 — MAY 2023</div>
+          <div class="exp-card-tag" data-i18n="experience.bosch.date">JAN 2023 — MAY 2023</div>
         </div>
         <div class="exp-card-body">
           <div>
-            <h3>Machining &amp; Assembly Supervisor</h3>
+            <h3 data-i18n="experience.bosch.role">Machining &amp; Assembly Supervisor</h3>
             <div class="exp-card-company">Bosch Chassis Systems India Pvt. Ltd</div>
             <div class="exp-card-loc">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Pune, India
+              <span data-i18n="experience.bosch.loc">Pune, India</span>
             </div>
           </div>
           <div class="exp-card-cta">
-            <span>Click to see description</span>
+            <span data-i18n="experience.cta">Click to see description</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
           </div>
         </div>
@@ -1563,15 +1628,15 @@
 
 <section id="research">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">03</span><h2>Research &amp; innovation</h2></div>
-    <p class="sec-sub">Dassault Systèmes–sponsored and independent research projects from my Bachelor's, applying solar energy and CFD simulation to real-world hardware.</p>
+    <div class="sec-head"><span class="sec-num">03</span><h2 data-i18n="research.title">Research &amp; innovation</h2></div>
+    <p class="sec-sub" data-i18n="research.sub">Dassault Systèmes–sponsored and independent research projects from my Bachelor's, applying solar energy and CFD simulation to real-world hardware.</p>
     <div class="proj-grid" id="researchGrid"></div>
   </div>
 </section>
 
 <section id="projects">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">04</span><h2>Featured project</h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2 data-i18n="featured.title">Featured project</h2></div>
 
     <div class="feature">
       <!-- ALLEGRI Automated Slideshow -->
@@ -1590,12 +1655,12 @@
       </div>
       <div class="feature-top">
         <div>
-          <span class="badge">🏆 PRIZE WINNER</span>
+          <span class="badge" data-i18n="featured.badge">🏆 PRIZE WINNER</span>
           <h3>ALLEGRI</h3>
-          <div class="dwg">AI-Assisted Reading of Gram Stains &amp; Blood Smears</div>
+          <div class="dwg" data-i18n="featured.dwg">AI-Assisted Reading of Gram Stains &amp; Blood Smears</div>
         </div>
       </div>
-      <p>
+      <p data-i18n="featured.desc">
         Built with a real hospital partner — Centre Hospitalier de Saint-Denis — as part of ESILV's
         industry-partnership program. A microscope camera feeds a YOLOv11 model running on a Raspberry Pi 5,
         optimized for low-latency edge inference in a clinical setting, giving hospital staff real-time bacteria
@@ -1603,14 +1668,14 @@
         the loop.
       </p>
       <div class="stat-row">
-        <div class="stat"><b>92.9%</b><span>mAP50 — bacteria detection</span></div>
-        <div class="stat"><b>87.9%</b><span>mAP50 — malaria detection</span></div>
-        <div class="stat"><b>6</b><span>person engineering team</span></div>
+        <div class="stat"><b>92.9%</b><span data-i18n="featured.stat1">mAP50 — bacteria detection</span></div>
+        <div class="stat"><b>87.9%</b><span data-i18n="featured.stat2">mAP50 — malaria detection</span></div>
+        <div class="stat"><b>6</b><span data-i18n="featured.stat3">person engineering team</span></div>
       </div>
       <div class="feature-links">
-        <a href="https://allegriproject.netlify.app/" target="_blank" rel="noopener">Live site ↗</a>
-        <a href="https://github.com/Shubhu1-ai/ALLEGRI_Hospital_Project" target="_blank" rel="noopener">GitHub repo ↗</a>
-        <a href="https://canva.link/dfi0v96jaxkkash" target="_blank" rel="noopener">Demo video ↗</a>
+        <a href="https://allegriproject.netlify.app/" target="_blank" rel="noopener" data-i18n="featured.linkLive">Live site ↗</a>
+        <a href="https://github.com/Shubhu1-ai/ALLEGRI_Hospital_Project" target="_blank" rel="noopener" data-i18n="featured.linkRepo">GitHub repo ↗</a>
+        <a href="https://canva.link/dfi0v96jaxkkash" target="_blank" rel="noopener" data-i18n="featured.linkDemo">Demo video ↗</a>
       </div>
     </div>
 
@@ -1619,62 +1684,62 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">05</span><h2>More projects</h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2 data-i18n="projects.title">More projects</h2></div>
     <div class="proj-grid" id="projGrid"></div>
   </div>
 </section>
 
 <section id="skills" style="border-bottom:none;">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">06</span><h2>Skills</h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2 data-i18n="skills.title">Skills</h2></div>
     <div class="skill-cards-grid">
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/ros.svg?v=2" alt="ROS, ROS2" width="84" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">ROS, ROS2</p>
+        <p class="skill-card-label" data-i18n="skills.s1">ROS, ROS2</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/matlab.svg?v=2" alt="MATLAB, Simulink" width="48" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">MATLAB, Simulink</p>
+        <p class="skill-card-label" data-i18n="skills.s2">MATLAB, Simulink</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/solidworks.svg?v=2" alt="SolidWorks, CAD, CFD" width="74" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">SolidWorks, CAD, CFD</p>
+        <p class="skill-card-label" data-i18n="skills.s3">SolidWorks, CAD, CFD</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/opencv.svg?v=2" alt="Python, OpenCV, YOLO" width="48" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">Python, OpenCV, YOLO</p>
+        <p class="skill-card-label" data-i18n="skills.s4">Python, OpenCV, YOLO</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/arduino.svg?v=2" alt="Arduino, Raspberry Pi, VHDL" width="72" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">Arduino, Raspberry Pi, VHDL</p>
+        <p class="skill-card-label" data-i18n="skills.s5">Arduino, Raspberry Pi, VHDL</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/plc_automation.svg?v=2" alt="PLC Logic, SCADA" width="48" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">PLC Logic, SCADA</p>
+        <p class="skill-card-label" data-i18n="skills.s6">PLC Logic, SCADA</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/cplusplus.svg?v=2" alt="C, C++, Control Algorithms" width="48" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">C, C++, Control Algorithms</p>
+        <p class="skill-card-label" data-i18n="skills.s7">C, C++, Control Algorithms</p>
       </div>
       <div class="skill-card">
         <div class="skill-card-icon-wrap">
           <img class="skill-card-icon" src="./skills-icons/aws.svg?v=2" alt="AWS DCEO, Azure, Linux" width="72" height="48" loading="eager">
         </div>
-        <p class="skill-card-label">AWS DCEO, Azure, Linux</p>
+        <p class="skill-card-label" data-i18n="skills.s8">AWS DCEO, Azure, Linux</p>
       </div>
     </div>
   </div>
@@ -1682,13 +1747,13 @@
 
 <section id="certifications" style="border-bottom:none;">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">07</span><h2>Certifications</h2></div>
-    <p class="sec-sub">Verified credentials across industrial automation, robotics, software development, AI, and project engineering. Click any certificate to open and download the official document.</p>
+    <div class="sec-head"><span class="sec-num">07</span><h2 data-i18n="certifications.title">Certifications</h2></div>
+    <p class="sec-sub" data-i18n="certifications.sub">Verified credentials across industrial automation, robotics, software development, AI, and project engineering. Click any certificate to open and download the official document.</p>
     <div class="cert-grid">
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Learning%20Industrial%20Automation.pdf" data-title="Learning Industrial Automation" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Learning Industrial Automation</span>
+          <span class="cert-title" data-i18n="cert.auto">Learning Industrial Automation</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1698,7 +1763,7 @@
       <div class="cert-card" data-pdf="./Certification/MATLAB_Certificate.pdf" data-title="MATLAB &amp; Simulink Certification" data-logo="./skills-icons/matlab.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/matlab.svg" alt="MATLAB" width="22" height="22" loading="eager">
-          <span class="cert-title">MATLAB &amp; Simulink Certification</span>
+          <span class="cert-title" data-i18n="cert.matlab">MATLAB &amp; Simulink Certification</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1708,7 +1773,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Programming%20Foundations%20Secure%20Coding%202018.pdf" data-title="Programming Foundations: Secure Coding" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Programming Foundations: Secure Coding</span>
+          <span class="cert-title" data-i18n="cert.sec">Programming Foundations: Secure Coding</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1718,7 +1783,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Git%20Essential%20Training%20The%20Basics%202019.pdf" data-title="Git Essential Training: The Basics" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Git Essential Training: The Basics</span>
+          <span class="cert-title" data-i18n="cert.git">Git Essential Training: The Basics</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1728,7 +1793,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Introduction%20to%20Prompt%20Engineering%20for%20Generative%20AI%202023.pdf" data-title="Introduction to Prompt Engineering for Generative AI" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Introduction to Prompt Engineering for Generative AI</span>
+          <span class="cert-title" data-i18n="cert.prompt">Introduction to Prompt Engineering for Generative AI</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1738,7 +1803,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_What%20Is%20Generative%20AI.pdf" data-title="What Is Generative AI?" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">What Is Generative AI?</span>
+          <span class="cert-title" data-i18n="cert.genai">What Is Generative AI?</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1748,7 +1813,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Data%20Visualization%20Storytelling.pdf" data-title="Data Visualization: Storytelling" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Data Visualization: Storytelling</span>
+          <span class="cert-title" data-i18n="cert.data">Data Visualization: Storytelling</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1758,7 +1823,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Business%20Analysis%20Foundations%20Business%20Process%20Modeling.pdf" data-title="Business Analysis Foundations: Business Process Modeling" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Business Analysis Foundations: Business Process Modeling</span>
+          <span class="cert-title" data-i18n="cert.ba">Business Analysis Foundations: Business Process Modeling</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1768,7 +1833,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Requirements%20Elicitation%20and%20Analysis.pdf" data-title="Requirements Elicitation and Analysis" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Requirements Elicitation and Analysis</span>
+          <span class="cert-title" data-i18n="cert.req">Requirements Elicitation and Analysis</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1778,7 +1843,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Project%20Management%20Foundations%20Schedules.pdf" data-title="Project Management Foundations: Schedules" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Project Management Foundations: Schedules</span>
+          <span class="cert-title" data-i18n="cert.pm">Project Management Foundations: Schedules</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1788,7 +1853,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Managing%20Project%20Stakeholders.pdf" data-title="Managing Project Stakeholders" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Managing Project Stakeholders</span>
+          <span class="cert-title" data-i18n="cert.stake">Managing Project Stakeholders</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1798,7 +1863,7 @@
       <div class="cert-card" data-pdf="./Certification/CertificateOfCompletion_Digital%20Marketing%20Foundations%202022.pdf" data-title="Digital Marketing Foundations" data-logo="./skills-icons/linkedin.svg" role="button" tabindex="0">
         <div class="cert-card-left">
           <img class="cert-badge-logo" src="./skills-icons/linkedin.svg" alt="LinkedIn" width="22" height="22" loading="eager">
-          <span class="cert-title">Digital Marketing Foundations</span>
+          <span class="cert-title" data-i18n="cert.mkt">Digital Marketing Foundations</span>
         </div>
         <div class="cert-action" aria-label="View Certificate">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
@@ -1812,14 +1877,14 @@
   <div class="wrap">
     <div class="foot-row">
       <div>
-        <h2>Let's build something.</h2>
-        <p>Open to robotics, automation, and AI infrastructure roles — based in Paris, happy to discuss relocation.</p>
+        <h2 data-i18n="contact.title">Let's build something.</h2>
+        <p data-i18n="contact.sub">Open to robotics, automation, and AI infrastructure roles — based in Paris, happy to discuss relocation.</p>
       </div>
       <div class="foot-links">
         <a href="mailto:shubhambollu1@gmail.com">shubhambollu1@gmail.com</a>
         <a href="https://github.com/Shubhu1-ai" target="_blank" rel="noopener">github.com/Shubhu1-ai</a>
         <a href="https://www.linkedin.com/in/shubham-bollu" id="linkedinLink" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf">Download CV ↗</a>
+        <a href="./Project/Shubham_Bollu_CV.pdf" target="_blank" rel="noopener" download="Shubham_Bollu_CV.pdf" data-i18n="contact.cv">Download CV ↗</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -1835,7 +1900,7 @@
     <div class="cert-modal-header">
       <div class="cert-modal-title-wrap">
         <img id="certModalLogo" src="" alt="Issuer logo" class="cert-modal-logo" width="22" height="22">
-        <h3 id="certModalTitle" class="cert-modal-title">Certificate</h3>
+        <h3 id="certModalTitle" class="cert-modal-title" data-i18n="certModal.header">Certificate</h3>
       </div>
       <div class="cert-modal-controls">
         <a id="certModalDownload" href="#" download class="cert-modal-btn cert-modal-btn-download" title="Download Certificate">
@@ -1844,7 +1909,7 @@
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          <span>Download</span>
+          <span data-i18n="certModal.download">Download</span>
         </a>
         <button id="certModalClose" class="cert-modal-btn cert-modal-btn-close" aria-label="Close certificate viewer">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1877,7 +1942,7 @@
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
-        <span>CLOSE</span>
+        <span data-i18n="expModal.close">CLOSE</span>
       </button>
     </div>
     <div class="exp-modal-body">
@@ -1892,9 +1957,9 @@
         <div id="expModalCaption" class="exp-modal-img-caption">Operational Environment</div>
       </div>
       <div class="exp-modal-content">
-        <div class="exp-modal-sec-title">Key Responsibilities &amp; Operational Impact</div>
+        <div class="exp-modal-sec-title" data-i18n="expModal.respTitle">Key Responsibilities &amp; Operational Impact</div>
         <ul id="expModalBullets" class="exp-modal-bullets"></ul>
-        <div class="exp-modal-sec-title" style="margin-top:20px;">Technologies &amp; Systems</div>
+        <div class="exp-modal-sec-title" style="margin-top:20px;" data-i18n="expModal.techTitle">Technologies &amp; Systems</div>
         <div id="expModalTags" class="exp-modal-tags"></div>
       </div>
     </div>
@@ -1902,73 +1967,512 @@
 </div>
 
 <script>
-  // ---- Edit this array to add/update projects. Each one renders as a spec card below. ----
-  const projects = [
-    {
-      code: "DWG NO. KIN-001",
-      title: "Robotic Kinematics & Trajectory Planning",
-      desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
-      tags: ["MATLAB", "Simulink", "Kinematics"],
-      links: []
-    },
-    {
-      code: "DWG NO. NAV-002",
-      title: "ROS2 Autonomous Navigation",
-      desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
-      tags: ["ROS2", "Embedded Systems", "Python"],
-      links: []
-    },
-    {
-      code: "DWG NO. LEO-003",
-      title: "LEO Robotics (Engineering Communication)",
-      desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
-      tags: ["3D Animation", "Technical Communication"],
-      links: []
-    },
-    {
-      code: "DWG NO. EDGE-004",
-      title: "Industrial Edge AI & Vision",
-      desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
-      tags: ["Computer Vision", "OpenCV", "YOLO"],
-      links: []
-    }
-  ];
+  // ==========================================
+  // Internationalization (i18n): EN & FR
+  // ==========================================
+  const translations = {
+    en: {
+      "nav.about": "About",
+      "nav.experience": "Experience",
+      "nav.research": "Research",
+      "nav.projects": "Projects",
+      "nav.skills": "Skills",
+      "nav.certifications": "Certifications",
+      "nav.contact": "Contact",
+      "nav.cv": "CV ↗",
+      "nav.menu": "MENU",
 
-  // ---- Research & innovation projects (Bachelor's, Dassault Systèmes–sponsored) ----
-  const research = [
-    {
-      code: "DWG NO. RES-001",
-      title: "Solar Earthen Pot Air Cooler",
-      image: "./Project/Dassault Systemes.avif",
-      imagePos: "center center",
-      desc: "Funded and sponsored by La Fondation Dassault Systèmes. Led computational fluid dynamics (CFD) analysis, thermal performance evaluation, and CAD design of a sustainable solar-powered evaporative cooler for domestic and rural applications. Research published in the peer-reviewed International Journal of Innovative Research in Advanced Engineering (IJIRAE, July 2021).",
-      tags: ["Published Paper", "IJIRAE (2021)", "La Fondation Dassault Systèmes", "CFD Analysis", "Thermal Evaluation"],
-      links: [
-        { label: "View Paper (DOI) ↗", href: "https://doi.org/10.26562/ijirae.2021.v0807.003" }
-      ]
+      "hero.eyebrow": "AVAILABLE FOR HIRE — PARIS, FRANCE",
+      "hero.title": "Robotics &amp; Industry 4.0 Engineer.",
+      "hero.tagline": "I build systems where robots, simulation and software meet, from kinematics and trajectory planning to edge AI.",
+      "hero.metaProgramLabel": "PROGRAM",
+      "hero.metaProgramVal": "M.Sc. Robotics &amp; Industry 4.0, ESILV",
+      "hero.metaRecentLabel": "RECENT",
+      "hero.metaRecentVal": "AWS · Data Center Engineering Operations",
+      "hero.ctaProjects": "View projects",
+      "hero.ctaCv": "Download CV ↓",
+      "hero.ctaContact": "Contact",
+
+      "about.title": "About",
+      "about.p": "My engineering path started on the shop floor at Bosch, where I learned how real manufacturing systems behave under pressure: tolerances, uptime, and process reliability are not abstract ideas, they are daily constraints. Later, at Tata Consultancy Services, I worked on mission-critical Azure and SQL infrastructure for an oil &amp; gas client, where one issue could disrupt production and create immediate operational impact. That combination of hands-on manufacturing and high-availability cloud systems taught me how to design for connected, data-driven operations rather than isolated components. It is the reason I now focus on robotics, edge intelligence, and industrial systems that need to work reliably in the real world.",
+      "about.locLabel": "Location",
+      "about.locVal": "Paris, France",
+      "about.masterLabel": "Master's",
+      "about.masterVal": "École Supérieure d'Ingénieurs Léonard-de-Vinci (ESILV) -  Robotics &amp; Industry 4.0 (2025–2027)",
+      "about.bachelorLabel": "Bachelor's",
+      "about.bachelorVal": "NK Orchid Engineering College, India — Mechanical Engineering (2019–2022), CGPA 9.31/10",
+      "about.roleLabel": "Recent role",
+      "about.roleVal": "DCEO Intern, Amazon Web Services",
+      "about.contactLabel": "Contact",
+      "about.resumeLabel": "Resume",
+      "about.resumeVal": "Download CV (PDF) ↗",
+
+      "experience.title": "Experience",
+      "experience.sub": "Industrial engineering and high-availability operations. Click any experience card to explore facility systems, technical achievements, and operational impact.",
+      "experience.cta": "Click to see description",
+      "experience.aws.role": "Data Center Engineering Operations Intern",
+      "experience.aws.date": "APR 2026 — AUG 2026",
+      "experience.aws.loc": "Paris, France",
+      "experience.tcs.role": "Data &amp; Automation Engineer",
+      "experience.tcs.date": "JUN 2023 — AUG 2025",
+      "experience.tcs.loc": "Pune, India",
+      "experience.bosch.role": "Machining &amp; Assembly Supervisor",
+      "experience.bosch.date": "JAN 2023 — MAY 2023",
+      "experience.bosch.loc": "Pune, India",
+
+      "expModal.close": "CLOSE",
+      "expModal.respTitle": "Key Responsibilities &amp; Operational Impact",
+      "expModal.techTitle": "Technologies &amp; Systems",
+
+      "research.title": "Research &amp; innovation",
+      "research.sub": "Dassault Systèmes–sponsored and independent research projects from my Bachelor's, applying solar energy and CFD simulation to real-world hardware.",
+
+      "featured.title": "Featured project",
+      "featured.badge": "🏆 PRIZE WINNER",
+      "featured.dwg": "AI-Assisted Reading of Gram Stains &amp; Blood Smears",
+      "featured.desc": "Built with a real hospital partner — Centre Hospitalier de Saint-Denis — as part of ESILV's industry-partnership program. A microscope camera feeds a YOLOv11 model running on a Raspberry Pi 5, optimized for low-latency edge inference in a clinical setting, giving hospital staff real-time bacteria and malaria detection through a web and Android app, with a doctor-override step to keep a clinician in the loop.",
+      "featured.stat1": "mAP50 — bacteria detection",
+      "featured.stat2": "mAP50 — malaria detection",
+      "featured.stat3": "person engineering team",
+      "featured.linkLive": "Live site ↗",
+      "featured.linkRepo": "GitHub repo ↗",
+      "featured.linkDemo": "Demo video ↗",
+
+      "projects.title": "More projects",
+
+      "skills.title": "Skills",
+      "skills.s1": "ROS, ROS2",
+      "skills.s2": "MATLAB, Simulink",
+      "skills.s3": "SolidWorks, CAD, CFD",
+      "skills.s4": "Python, OpenCV, YOLO",
+      "skills.s5": "Arduino, Raspberry Pi, VHDL",
+      "skills.s6": "PLC Logic, SCADA",
+      "skills.s7": "C, C++, Control Algorithms",
+      "skills.s8": "AWS DCEO, Azure, Linux",
+
+      "certifications.title": "Certifications",
+      "certifications.sub": "Verified credentials across industrial automation, robotics, software development, AI, and project engineering. Click any certificate to open and download the official document.",
+      "cert.auto": "Learning Industrial Automation",
+      "cert.matlab": "MATLAB &amp; Simulink Certification",
+      "cert.sec": "Programming Foundations: Secure Coding",
+      "cert.git": "Git Essential Training: The Basics",
+      "cert.prompt": "Introduction to Prompt Engineering for Generative AI",
+      "cert.genai": "What Is Generative AI?",
+      "cert.data": "Data Visualization: Storytelling",
+      "cert.ba": "Business Analysis Foundations: Business Process Modeling",
+      "cert.req": "Requirements Elicitation and Analysis",
+      "cert.pm": "Project Management Foundations: Schedules",
+      "cert.stake": "Managing Project Stakeholders",
+      "cert.mkt": "Digital Marketing Foundations",
+
+      "certModal.header": "Certificate",
+      "certModal.download": "Download",
+
+      "contact.title": "Let's build something.",
+      "contact.sub": "Open to robotics, automation, and AI infrastructure roles — based in Paris, happy to discuss relocation.",
+      "contact.cv": "Download CV ↗"
     },
-    {
-      code: "DWG NO. RES-002",
-      title: "Solar Milk Pasteurization",
-      image: "./Project/Milk Pasturization.jpg",
-      imagePos: "center center",
-      desc: "Dassault Systèmes–sponsored project. Developed a solar-powered pasteurization process with temperature control and packing system for dairy processing.",
-      tags: ["Dassault Systèmes", "Solar Energy"],
-      links: []
-    },
-    {
-      code: "DWG NO. RES-003",
-      title: "Solar DC Water Pump",
-      image: "./Project/DC Water Pump 2.jpg",
-      imagePos: "center 30%",
-      desc: "Dassault Systèmes–sponsored project. Developed a high-pressure, standalone solar-powered water pump for farming applications.",
-      tags: ["Dassault Systèmes", "Solar Energy"],
-      links: []
+    fr: {
+      "nav.about": "À propos",
+      "nav.experience": "Expérience",
+      "nav.research": "Recherche",
+      "nav.projects": "Projets",
+      "nav.skills": "Compétences",
+      "nav.certifications": "Certifications",
+      "nav.contact": "Contact",
+      "nav.cv": "CV ↗",
+      "nav.menu": "MENU",
+
+      "hero.eyebrow": "DISPONIBLE POUR EMBAUCHE — PARIS, FRANCE",
+      "hero.title": "Ingénieur Robotique &amp; Industrie 4.0.",
+      "hero.tagline": "Je conçois des systèmes où se rencontrent robots, simulation et logiciels, de la cinématique et la planification de trajectoire à l'IA embarquée.",
+      "hero.metaProgramLabel": "PROGRAMME",
+      "hero.metaProgramVal": "M.Sc. Robotique &amp; Industrie 4.0, ESILV",
+      "hero.metaRecentLabel": "EXPÉRIENCE",
+      "hero.metaRecentVal": "AWS · Opérations d'Ingénierie Data Center",
+      "hero.ctaProjects": "Voir les projets",
+      "hero.ctaCv": "Télécharger le CV ↓",
+      "hero.ctaContact": "Contact",
+
+      "about.title": "À propos",
+      "about.p": "Mon parcours d'ingénieur a débuté en atelier chez Bosch, où j'ai appris comment les systèmes de fabrication réels fonctionnent sous contrainte : les tolérances, la disponibilité opérationnelle et la fiabilité des processus ne sont pas des concepts abstraits, mais des impératifs quotidiens. Par la suite, chez Tata Consultancy Services, j'ai géré des infrastructures critiques Azure et SQL pour un client du secteur pétrolier et gazier, où le moindre incident pouvait paralyser la production avec un impact immédiat. Cette combinaison d'ingénierie terrain et de systèmes cloud haute disponibilité m'a appris à concevoir des architectures connectées et axées sur les données plutôt que des composants isolés. C'est pourquoi je me consacre aujourd'hui à la robotique, à l'intelligence en périphérie (Edge AI) et aux systèmes industriels exigeant une fiabilité absolue en conditions réelles.",
+      "about.locLabel": "Localisation",
+      "about.locVal": "Paris, France",
+      "about.masterLabel": "Master",
+      "about.masterVal": "École Supérieure d'Ingénieurs Léonard-de-Vinci (ESILV) - Robotique &amp; Industrie 4.0 (2025–2027)",
+      "about.bachelorLabel": "Licence / Bachelor",
+      "about.bachelorVal": "NK Orchid Engineering College, Inde — Génie Mécanique (2019–2022), Moyenne 9.31/10",
+      "about.roleLabel": "Poste récent",
+      "about.roleVal": "Stagiaire DCEO, Amazon Web Services",
+      "about.contactLabel": "Contact",
+      "about.resumeLabel": "Curriculum",
+      "about.resumeVal": "Télécharger le CV (PDF) ↗",
+
+      "experience.title": "Expérience",
+      "experience.sub": "Ingénierie industrielle et opérations haute disponibilité. Cliquez sur une carte pour explorer les systèmes d'infrastructure, réalisations techniques et impacts opérationnels.",
+      "experience.cta": "Cliquer pour voir la description",
+      "experience.aws.role": "Stagiaire Opérations d'Ingénierie Data Center",
+      "experience.aws.date": "AVR 2026 — AOÛ 2026",
+      "experience.aws.loc": "Paris, France",
+      "experience.tcs.role": "Ingénieur Données &amp; Automatisation",
+      "experience.tcs.date": "JUIN 2023 — AOÛ 2025",
+      "experience.tcs.loc": "Pune, Inde",
+      "experience.bosch.role": "Superviseur Usinage &amp; Assemblage",
+      "experience.bosch.date": "JAN 2023 — MAI 2023",
+      "experience.bosch.loc": "Pune, Inde",
+
+      "expModal.close": "FERMER",
+      "expModal.respTitle": "Responsabilités Clés &amp; Impact Opérationnel",
+      "expModal.techTitle": "Technologies &amp; Systèmes",
+
+      "research.title": "Recherche &amp; Innovation",
+      "research.sub": "Projets de recherche indépendants et sponsorisés par Dassault Systèmes issus de mon Bachelor, appliquant l'énergie solaire et la simulation CFD au matériel réel.",
+
+      "featured.title": "Projet à la une",
+      "featured.badge": "🏆 PROJET PRIMÉ",
+      "featured.dwg": "Lecture Assistée par IA de Colorations de Gram et Frottis Sanguins",
+      "featured.desc": "Conçu en partenariat avec un établissement hospitalier réel — le Centre Hospitalier de Saint-Denis — dans le cadre du programme de partenariat industriel de l'ESILV. Une caméra sur microscope alimente un modèle YOLOv11 s'exécutant sur un Raspberry Pi 5, optimisé pour une inférence en périphérie (Edge) à très faible latence en milieu clinique. Le personnel hospitalier bénéficie d'une détection en temps réel des bactéries et du paludisme via une application web et Android, avec validation médicale garantissant le contrôle par le praticien.",
+      "featured.stat1": "mAP50 — détection de bactéries",
+      "featured.stat2": "mAP50 — détection du paludisme",
+      "featured.stat3": "membres dans l'équipe d'ingénierie",
+      "featured.linkLive": "Démo en ligne ↗",
+      "featured.linkRepo": "Dépôt GitHub ↗",
+      "featured.linkDemo": "Vidéo démo ↗",
+
+      "projects.title": "Autres projets",
+
+      "skills.title": "Compétences",
+      "skills.s1": "ROS, ROS2",
+      "skills.s2": "MATLAB, Simulink",
+      "skills.s3": "SolidWorks, CAO, CFD",
+      "skills.s4": "Python, OpenCV, YOLO",
+      "skills.s5": "Arduino, Raspberry Pi, VHDL",
+      "skills.s6": "Logique Automate, SCADA",
+      "skills.s7": "C, C++, Algorithmes de Contrôle",
+      "skills.s8": "AWS DCEO, Azure, Linux",
+
+      "certifications.title": "Certifications",
+      "certifications.sub": "Titres et attestations certifiés en automatisation industrielle, robotique, développement logiciel, IA et ingénierie de projet. Cliquez sur un certificat pour ouvrir et télécharger le document officiel.",
+      "cert.auto": "Fondamentaux de l'Automatisation Industrielle",
+      "cert.matlab": "Certification MATLAB &amp; Simulink",
+      "cert.sec": "Fondations de la Programmation : Code Sécurisé",
+      "cert.git": "Formation Essentielle Git : Les Fondamentaux",
+      "cert.prompt": "Introduction à l'Ingénierie des Prompts pour l'IA Générative",
+      "cert.genai": "Qu'est-ce que l'IA Générative ?",
+      "cert.data": "Visualisation des Données : Storytelling",
+      "cert.ba": "Fondations de l'Analyse Métier : Modélisation des Processus",
+      "cert.req": "Recueil et Analyse des Exigences",
+      "cert.pm": "Fondations de la Gestion de Projet : Calendriers",
+      "cert.stake": "Gestion des Parties Prenantes d'un Projet",
+      "cert.mkt": "Fondations du Marketing Digital",
+
+      "certModal.header": "Certificat",
+      "certModal.download": "Télécharger",
+
+      "contact.title": "Donnons vie à vos projets.",
+      "contact.sub": "Ouvert aux opportunités en robotique, automatisation et infrastructure IA — basé à Paris, ouvert aux opportunités avec mobilité géographique.",
+      "contact.cv": "Télécharger le CV ↗"
     }
-  ];
+  };
+
+  const projectsData = {
+    en: [
+      {
+        code: "DWG NO. KIN-001",
+        title: "Robotic Kinematics & Trajectory Planning",
+        desc: "Modeled and simulated SCARA, RRR, and RPP robotic architectures in MATLAB/Simulink. Formulated Denavit-Hartenberg parameter tables, calculated Jacobians, and executed 5th-degree polynomial trajectory planning for robotic milling cells.",
+        tags: ["MATLAB", "Simulink", "Kinematics"],
+        links: []
+      },
+      {
+        code: "DWG NO. NAV-002",
+        title: "ROS2 Autonomous Navigation",
+        desc: "Developed publisher-subscriber nodes in ROS2 for TurtleBot3 autonomous navigation. Explored hardware-software integration using Raspberry Pi and FPGA/VHDL implementations.",
+        tags: ["ROS2", "Embedded Systems", "Python"],
+        links: []
+      },
+      {
+        code: "DWG NO. LEO-003",
+        title: "LEO Robotics (Engineering Communication)",
+        desc: "Founded and manage an educational robotics brand creating 3D animations and visual scripts that break down complex mechanical components and robotic mechanisms for a broader audience.",
+        tags: ["3D Animation", "Technical Communication"],
+        links: []
+      },
+      {
+        code: "DWG NO. EDGE-004",
+        title: "Industrial Edge AI & Vision",
+        desc: "Engineered computer vision pipelines for surface defect classification using YOLOv8 and deep learning techniques with OpenCV, deploying models optimized for edge hardware.",
+        tags: ["Computer Vision", "OpenCV", "YOLO"],
+        links: []
+      }
+    ],
+    fr: [
+      {
+        code: "DWG NO. KIN-001",
+        title: "Cinématique Robotique & Planification de Trajectoire",
+        desc: "Modélisation et simulation d'architectures robotiques SCARA, RRR et RPP sous MATLAB/Simulink. Établissement des tables de paramètres Denavit-Hartenberg, calcul des Jacobiens et génération de trajectoires polynomiales de degré 5 pour cellules d'usinage robotisées.",
+        tags: ["MATLAB", "Simulink", "Cinématique"],
+        links: []
+      },
+      {
+        code: "DWG NO. NAV-002",
+        title: "Navigation Autonome ROS2",
+        desc: "Développement de nœuds éditeur-abonné en ROS2 pour la navigation autonome de TurtleBot3. Intégration matériel-logiciel via Raspberry Pi et implémentations FPGA/VHDL.",
+        tags: ["ROS2", "Systèmes Embarqués", "Python"],
+        links: []
+      },
+      {
+        code: "DWG NO. LEO-003",
+        title: "LEO Robotics (Communication Technique & Vulgarisation)",
+        desc: "Création et gestion d'une marque de robotique éducative produisant des animations 3D et des schémas visuels décryptant les mécanismes robotiques et composants mécaniques complexes pour un large public.",
+        tags: ["Animation 3D", "Communication Technique"],
+        links: []
+      },
+      {
+        code: "DWG NO. EDGE-004",
+        title: "IA & Vision Industrielle en Périphérie (Edge)",
+        desc: "Conception de pipelines de vision par ordinateur pour la classification des défauts de surface via YOLOv8 et techniques de deep learning avec OpenCV, avec déploiement optimisé pour matériel embarqué.",
+        tags: ["Vision par Ordinateur", "OpenCV", "YOLO"],
+        links: []
+      }
+    ]
+  };
+
+  const researchData = {
+    en: [
+      {
+        code: "DWG NO. RES-001",
+        title: "Solar Earthen Pot Air Cooler",
+        image: "./Project/Dassault Systemes.avif",
+        imagePos: "center center",
+        desc: "Funded and sponsored by La Fondation Dassault Systèmes. Led computational fluid dynamics (CFD) analysis, thermal performance evaluation, and CAD design of a sustainable solar-powered evaporative cooler for domestic and rural applications. Research published in the peer-reviewed International Journal of Innovative Research in Advanced Engineering (IJIRAE, July 2021).",
+        tags: ["Published Paper", "IJIRAE (2021)", "La Fondation Dassault Systèmes", "CFD Analysis", "Thermal Evaluation"],
+        links: [
+          { label: "View Paper (DOI) ↗", href: "https://doi.org/10.26562/ijirae.2021.v0807.003" }
+        ]
+      },
+      {
+        code: "DWG NO. RES-002",
+        title: "Solar Milk Pasteurization",
+        image: "./Project/Milk Pasturization.jpg",
+        imagePos: "center center",
+        desc: "Dassault Systèmes–sponsored project. Developed a solar-powered pasteurization process with temperature control and packing system for dairy processing.",
+        tags: ["Dassault Systèmes", "Solar Energy"],
+        links: []
+      },
+      {
+        code: "DWG NO. RES-003",
+        title: "Solar DC Water Pump",
+        image: "./Project/DC Water Pump 2.jpg",
+        imagePos: "center 30%",
+        desc: "Dassault Systèmes–sponsored project. Developed a high-pressure, standalone solar-powered water pump for farming applications.",
+        tags: ["Dassault Systèmes", "Solar Energy"],
+        links: []
+      }
+    ],
+    fr: [
+      {
+        code: "DWG NO. RES-001",
+        title: "Refroidisseur d'air solaire en pot d'argile",
+        image: "./Project/Dassault Systemes.avif",
+        imagePos: "center center",
+        desc: "Financé et sponsorisé par La Fondation Dassault Systèmes. Pilotage des analyses de dynamique des fluides numérique (CFD), de l'évaluation thermique et de la conception CAO d'un refroidisseur évaporatif solaire durable destiné aux applications domestiques et rurales. Recherche publiée dans la revue internationale à comité de lecture IJIRAE (juillet 2021).",
+        tags: ["Article Publié", "IJIRAE (2021)", "La Fondation Dassault Systèmes", "Analyse CFD", "Évaluation Thermique"],
+        links: [
+          { label: "Voir l'article (DOI) ↗", href: "https://doi.org/10.26562/ijirae.2021.v0807.003" }
+        ]
+      },
+      {
+        code: "DWG NO. RES-002",
+        title: "Pasteurisation solaire du lait",
+        image: "./Project/Milk Pasturization.jpg",
+        imagePos: "center center",
+        desc: "Projet sponsorisé par Dassault Systèmes. Développement d'un procédé de pasteurisation solaire avec régulation de température et système de conditionnement pour la filière laitière.",
+        tags: ["Dassault Systèmes", "Énergie Solaire"],
+        links: []
+      },
+      {
+        code: "DWG NO. RES-003",
+        title: "Pompe à eau solaire CC",
+        image: "./Project/DC Water Pump 2.jpg",
+        imagePos: "center 30%",
+        desc: "Projet sponsorisé par Dassault Systèmes. Conception d'une pompe à eau solaire autonome haute pression pour les exploitations agricoles.",
+        tags: ["Dassault Systèmes", "Énergie Solaire"],
+        links: []
+      }
+    ]
+  };
+
+  const allegriSlides = {
+    en: [
+      {
+        src: "./Project/ALLEGRI.png",
+        caption: "System Architecture & YOLOv11 Edge Detection",
+        alt: "ALLEGRI Project Architecture & Detection Preview"
+      },
+      {
+        src: "./Project/ALLEGRI_Image.jpg",
+        caption: "6-Person Engineering Team · ESILV & Hospital Partner",
+        alt: "ALLEGRI Engineering Team at Centre Hospitalier de Saint-Denis"
+      }
+    ],
+    fr: [
+      {
+        src: "./Project/ALLEGRI.png",
+        caption: "Architecture Système & Détection en Périphérie YOLOv11",
+        alt: "Aperçu Architecture & Détection Projet ALLEGRI"
+      },
+      {
+        src: "./Project/ALLEGRI_Image.jpg",
+        caption: "Équipe d'Ingénierie de 6 Personnes · ESILV & Partenaire Hospitalier",
+        alt: "Équipe d'ingénierie ALLEGRI au Centre Hospitalier de Saint-Denis"
+      }
+    ]
+  };
+
+  const expDetailsData = {
+    en: {
+      aws: {
+        role: "Data Center Engineering Operations Intern",
+        company: "Amazon Web Services (AWS)",
+        location: "Paris, France",
+        dates: "APR 2026 — AUG 2026",
+        logo: "./skills-icons/aws.svg",
+        images: [
+          {
+            src: "./Amazon/Amazon Background.png",
+            caption: "Amazon Web Services (AWS) · Data Center Operations & Infrastructure"
+          },
+          {
+            src: "./Amazon/Amazon.png",
+            caption: "Amazon Engineering & Operations Workspace — Paris, France"
+          }
+        ],
+        bullets: [
+          "Led diagnosis and recovery planning for a critical chiller redundancy failure, applying PLC logic and PID control principles to restore full cooling redundancy in a live data center environment.",
+          "Monitored building and electrical power management systems (BMS/EPMS) to support real-time operational decisions across cooling, power, and electrical infrastructure.",
+          "Built lightweight AI-powered tools that streamlined day-to-day workflows for the engineering operations team."
+        ],
+        tags: ["Chiller Redundancy Recovery", "PLC Logic & PID Control", "BMS / EPMS Monitoring", "High-Availability Cooling", "AI Operational Tooling"]
+      },
+      tcs: {
+        role: "Data & Automation Engineer",
+        company: "Tata Consultancy Services",
+        location: "Pune, India",
+        dates: "JUN 2023 — AUG 2025",
+        logo: "./skills-icons/tcs.svg",
+        images: [
+          {
+            src: "./experience-images/TCS Image.webp",
+            caption: "Tata Consultancy Services — Operations & Global Engineering Delivery"
+          },
+          {
+            src: "./experience-images/tcs-analytics.jpg",
+            caption: "Enterprise Multi-Cloud Infrastructure & Real-Time Database Operations"
+          }
+        ],
+        bullets: [
+          "Provided 24/7 support for Azure virtual machines and SQL Server environments in the oil & gas sector for Australia-based clients, resolving critical incidents across time zones.",
+          "Led a migration from Oracle to SQL Server for a large application, reducing database licensing costs by 35% and improving performance.",
+          "Designed and maintained a Power BI pipeline dashboard to monitor dataflows, presenting insights directly to international clients and leadership."
+        ],
+        tags: ["Azure Virtual Machines", "SQL Server", "Oracle to SQL Migration", "Power BI Dashboards", "24/7 Production Support", "Oil & Gas Systems"]
+      },
+      bosch: {
+        role: "Machining & Assembly Supervisor",
+        company: "Bosch Chassis Systems India Pvt. Ltd",
+        location: "Pune, India",
+        dates: "JAN 2023 — MAY 2023",
+        logo: "./skills-icons/bosch.svg",
+        images: [
+          {
+            src: "./experience-images/bosch-assembly.jpg",
+            caption: "Automated Robotic Assembly Line & ABS Sensor Quality Inspection"
+          }
+        ],
+        bullets: [
+          "Supervised assembly line operations for ABS wiring products and implemented 5S standards, coordinating daily quality inspections to ensure on-time delivery.",
+          "Implemented Kaizen improvements that increased production efficiency by 10% and reduced defects."
+        ],
+        tags: ["ABS Wiring Products", "5S Methodology", "Kaizen Continuous Improvement", "Assembly Supervision", "Quality Control Inspections"]
+      }
+    },
+    fr: {
+      aws: {
+        role: "Stagiaire Opérations d'Ingénierie Data Center",
+        company: "Amazon Web Services (AWS)",
+        location: "Paris, France",
+        dates: "AVR 2026 — AOÛ 2026",
+        logo: "./skills-icons/aws.svg",
+        images: [
+          {
+            src: "./Amazon/Amazon Background.png",
+            caption: "Amazon Web Services (AWS) · Opérations Data Center & Infrastructure"
+          },
+          {
+            src: "./Amazon/Amazon.png",
+            caption: "Espace Opérationnel & Ingénierie Amazon — Paris, France"
+          }
+        ],
+        bullets: [
+          "Pilotage du diagnostic et du plan de rétablissement suite à une anomalie critique de redondance des groupes froids, appliquant la logique automate (PLC) et la régulation PID pour rétablir une redondance frigorifique complète dans un data center en exploitation.",
+          "Supervision des systèmes de gestion technique de bâtiment et d'énergie (GTB/GTE - BMS/EPMS) pour éclairer les décisions opérationnelles en temps réel sur les infrastructures de refroidissement, d'alimentation et de distribution électrique.",
+          "Développement d'outils légers basés sur l'IA optimisant les flux de travail quotidiens de l'équipe d'ingénierie opérationnelle."
+        ],
+        tags: ["Rétablissement Redondance Chiller", "Logique Automate PLC & Contrôle PID", "Supervision GTB / GTE (BMS/EPMS)", "Refroidissement Haute Disponibilité", "Outils Opérationnels IA"]
+      },
+      tcs: {
+        role: "Ingénieur Données & Automatisation",
+        company: "Tata Consultancy Services",
+        location: "Pune, Inde",
+        dates: "JUIN 2023 — AOÛ 2025",
+        logo: "./skills-icons/tcs.svg",
+        images: [
+          {
+            src: "./experience-images/TCS Image.webp",
+            caption: "Tata Consultancy Services — Opérations & Ingénierie Globale"
+          },
+          {
+            src: "./experience-images/tcs-analytics.jpg",
+            caption: "Infrastructure Multi-Cloud d'Entreprise & Opérations Base de Données Temps Réel"
+          }
+        ],
+        bullets: [
+          "Support 24/7 pour les machines virtuelles Azure et les environnements SQL Server dans le secteur pétrolier et gazier pour des clients en Australie, résolvant des incidents critiques multi-fuseaux horaires.",
+          "Direction de la migration d'Oracle vers SQL Server pour une application critique, réduisant les coûts de licences logicielles de 35 % et augmentant les performances globales.",
+          "Conception et maintenance de tableaux de bord Power BI pour superviser les pipelines de données, avec restitution directe des indicateurs auprès des clients internationaux et de la direction."
+        ],
+        tags: ["Machines Virtuelles Azure", "SQL Server", "Migration Oracle vers SQL", "Tableaux de bord Power BI", "Support Production 24/7", "Systèmes Pétroliers & Gaziers"]
+      },
+      bosch: {
+        role: "Superviseur Usinage & Assemblage",
+        company: "Bosch Chassis Systems India Pvt. Ltd",
+        location: "Pune, Inde",
+        dates: "JAN 2023 — MAI 2023",
+        logo: "./skills-icons/bosch.svg",
+        images: [
+          {
+            src: "./experience-images/bosch-assembly.jpg",
+            caption: "Ligne d'Assemblage Robotisée & Contrôle Qualité des Capteurs ABS"
+          }
+        ],
+        bullets: [
+          "Supervision des opérations de ligne d'assemblage pour les faisceaux de câblage ABS et mise en œuvre des standards 5S, coordonnant les contrôles qualité quotidiens pour garantir le respect rigoureux des délais de livraison.",
+          "Mise en place d'initiatives Kaizen augmentant l'efficacité opérationnelle de 10 % et réduisant le taux de rebuts."
+        ],
+        tags: ["Faisceaux de Câblage ABS", "Méthodologie 5S", "Amélioration Continue Kaizen", "Supervision d'Assemblage", "Contrôle Qualité & Métrologie"]
+      }
+    }
+  };
+
+  let currentLanguage = 'en';
+  let updateAllegriLangFn = null;
+  let openExpModalFn = null;
 
   function renderCards(list, gridId) {
     const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = '';
     list.forEach(p => {
       const card = document.createElement('div');
       card.className = 'proj-card';
@@ -1988,24 +2492,97 @@
       grid.appendChild(card);
     });
   }
-  renderCards(projects, 'projGrid');
-  renderCards(research, 'researchGrid');
+
+  function setLanguage(lang) {
+    if (!translations[lang]) lang = 'en';
+    currentLanguage = lang;
+    document.documentElement.lang = lang;
+    try {
+      localStorage.setItem('portfolio_language', lang);
+    } catch (e) {}
+
+    // Update label & dropdown selection state
+    const currentLangLabel = document.getElementById('currentLangLabel');
+    if (currentLangLabel) currentLangLabel.textContent = lang.toUpperCase();
+
+    document.querySelectorAll('.lang-option').forEach(opt => {
+      const optLang = opt.getAttribute('data-lang');
+      opt.classList.toggle('active', optLang === lang);
+    });
+
+    // Update all static data-i18n elements
+    const dict = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
+    });
+
+    // Re-render project cards & research cards in active language
+    if (projectsData[lang]) renderCards(projectsData[lang], 'projGrid');
+    if (researchData[lang]) renderCards(researchData[lang], 'researchGrid');
+
+    // Update Allegri slider caption
+    if (typeof updateAllegriLangFn === 'function') {
+      updateAllegriLangFn(lang);
+    }
+
+    // Refresh active experience modal if opened
+    const expModal = document.getElementById('expModal');
+    if (expModal && expModal.classList.contains('active') && window.__currentExpId && typeof openExpModalFn === 'function') {
+      openExpModalFn(window.__currentExpId, true);
+    }
+  }
+
+  // Language Dropdown Controller
+  function initLangSelector() {
+    const selector = document.getElementById('langSelector');
+    const btn = document.getElementById('langBtn');
+    const options = document.querySelectorAll('.lang-option');
+
+    if (!selector || !btn) return;
+
+    function toggleDropdown(e) {
+      if (e) e.stopPropagation();
+      const isOpen = selector.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function closeDropdown() {
+      selector.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', toggleDropdown);
+
+    options.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedLang = opt.getAttribute('data-lang');
+        if (selectedLang) {
+          setLanguage(selectedLang);
+        }
+        closeDropdown();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!selector.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && selector.classList.contains('open')) {
+        closeDropdown();
+      }
+    });
+  }
 
   // ---- ALLEGRI Featured Project Automatic Slideshow ----
   (function initAllegriSlider() {
-    const slides = [
-      {
-        src: "./Project/ALLEGRI.png",
-        caption: "System Architecture & YOLOv11 Edge Detection",
-        alt: "ALLEGRI Project Architecture & Detection Preview"
-      },
-      {
-        src: "./Project/ALLEGRI_Image.jpg",
-        caption: "6-Person Engineering Team · ESILV & Hospital Partner",
-        alt: "ALLEGRI Engineering Team at Centre Hospitalier de Saint-Denis"
-      }
-    ];
-
+    let slides = allegriSlides.en;
     let currentIndex = 0;
     let timer = null;
     const imgEl = document.getElementById('allegriSlideImg');
@@ -2088,6 +2665,16 @@
     sliderWrap.addEventListener('mouseleave', startAutoSlide);
 
     startAutoSlide();
+
+    updateAllegriLangFn = function(lang) {
+      slides = allegriSlides[lang] || allegriSlides.en;
+      if (captionEl && slides[currentIndex]) {
+        captionEl.textContent = slides[currentIndex].caption;
+      }
+      if (imgEl && slides[currentIndex]) {
+        imgEl.alt = slides[currentIndex].alt;
+      }
+    };
   })();
 
   // Mobile menu (responsive toggle with auto-close on navigation and backdrop click)
@@ -2229,6 +2816,7 @@
         downloadEl.href = pdfUrl;
         const safeName = title.replace(/[^a-zA-Z0-9_\-]/g, '_') + '.pdf';
         downloadEl.setAttribute('download', safeName);
+        downloadEl.title = currentLanguage === 'fr' ? 'Télécharger le certificat' : 'Download Certificate';
       }
       if (frameEl) {
         frameEl.src = pdfUrl;
@@ -2252,7 +2840,8 @@
       card.addEventListener('click', (e) => {
         e.preventDefault();
         const pdf = card.getAttribute('data-pdf');
-        const title = card.getAttribute('data-title');
+        const titleEl = card.querySelector('.cert-title');
+        const title = titleEl ? titleEl.textContent : card.getAttribute('data-title');
         const logo = card.getAttribute('data-logo');
         openCert(pdf, title, logo);
       });
@@ -2277,73 +2866,6 @@
   }
 
   // Experience Details Modal Controller
-  const expDetailsData = {
-    aws: {
-      role: "Data Center Engineering Operations Intern",
-      company: "Amazon Web Services (AWS)",
-      location: "Paris, France",
-      dates: "APR 2026 — AUG 2026",
-      logo: "./skills-icons/aws.svg",
-      images: [
-        {
-          src: "./Amazon/Amazon Background.png",
-          caption: "Amazon Web Services (AWS) · Data Center Operations & Infrastructure"
-        },
-        {
-          src: "./Amazon/Amazon.png",
-          caption: "Amazon Engineering & Operations Workspace — Paris, France"
-        }
-      ],
-      bullets: [
-        "Led diagnosis and recovery planning for a critical chiller redundancy failure, applying PLC logic and PID control principles to restore full cooling redundancy in a live data center environment.",
-        "Monitored building and electrical power management systems (BMS/EPMS) to support real-time operational decisions across cooling, power, and electrical infrastructure.",
-        "Built lightweight AI-powered tools that streamlined day-to-day workflows for the engineering operations team."
-      ],
-      tags: ["Chiller Redundancy Recovery", "PLC Logic & PID Control", "BMS / EPMS Monitoring", "High-Availability Cooling", "AI Operational Tooling"]
-    },
-    tcs: {
-      role: "Data & Automation Engineer",
-      company: "Tata Consultancy Services",
-      location: "Pune, India",
-      dates: "JUN 2023 — AUG 2025",
-      logo: "./skills-icons/tcs.svg",
-      images: [
-        {
-          src: "./experience-images/TCS Image.webp",
-          caption: "Tata Consultancy Services — Operations & Global Engineering Delivery"
-        },
-        {
-          src: "./experience-images/tcs-analytics.jpg",
-          caption: "Enterprise Multi-Cloud Infrastructure & Real-Time Database Operations"
-        }
-      ],
-      bullets: [
-        "Provided 24/7 support for Azure virtual machines and SQL Server environments in the oil & gas sector for Australia-based clients, resolving critical incidents across time zones.",
-        "Led a migration from Oracle to SQL Server for a large application, reducing database licensing costs by 35% and improving performance.",
-        "Designed and maintained a Power BI pipeline dashboard to monitor dataflows, presenting insights directly to international clients and leadership."
-      ],
-      tags: ["Azure Virtual Machines", "SQL Server", "Oracle to SQL Migration", "Power BI Dashboards", "24/7 Production Support", "Oil & Gas Systems"]
-    },
-    bosch: {
-      role: "Machining & Assembly Supervisor",
-      company: "Bosch Chassis Systems India Pvt. Ltd",
-      location: "Pune, India",
-      dates: "JAN 2023 — MAY 2023",
-      logo: "./skills-icons/bosch.svg",
-      images: [
-        {
-          src: "./experience-images/bosch-assembly.jpg",
-          caption: "Automated Robotic Assembly Line & ABS Sensor Quality Inspection"
-        }
-      ],
-      bullets: [
-        "Supervised assembly line operations for ABS wiring products and implemented 5S standards, coordinating daily quality inspections to ensure on-time delivery.",
-        "Implemented Kaizen improvements that increased production efficiency by 10% and reduced defects."
-      ],
-      tags: ["ABS Wiring Products", "5S Methodology", "Kaizen Continuous Improvement", "Assembly Supervision", "Quality Control Inspections"]
-    }
-  };
-
   function initExpModal() {
     const modal = document.getElementById('expModal');
     const roleEl = document.getElementById('expModalRole');
@@ -2408,8 +2930,10 @@
       }
     }
 
-    function openExpModal(expId) {
-      const data = expDetailsData[expId];
+    function openExpModal(expId, preserveSlide) {
+      window.__currentExpId = expId;
+      const langData = expDetailsData[currentLanguage] || expDetailsData.en;
+      const data = langData[expId];
       if (!data || !modal) return;
 
       if (roleEl) roleEl.textContent = data.role;
@@ -2422,12 +2946,14 @@
       }
 
       currentSlideImages = data.images || (data.image ? [{ src: data.image, caption: data.caption }] : []);
-      currentSlideIndex = 0;
+      if (!preserveSlide) {
+        currentSlideIndex = 0;
+      }
 
       if (dotsEl) {
         if (currentSlideImages.length > 1) {
           dotsEl.style.display = 'flex';
-          dotsEl.innerHTML = currentSlideImages.map((_, i) => `<span class="exp-slider-dot${i === 0 ? ' active' : ''}" data-idx="${i}"></span>`).join('');
+          dotsEl.innerHTML = currentSlideImages.map((_, i) => `<span class="exp-slider-dot${i === currentSlideIndex ? ' active' : ''}" data-idx="${i}"></span>`).join('');
           dotsEl.querySelectorAll('.exp-slider-dot').forEach(d => {
             d.addEventListener('click', (e) => {
               e.stopPropagation();
@@ -2445,8 +2971,10 @@
       if (prevBtn) prevBtn.style.display = currentSlideImages.length > 1 ? 'flex' : 'none';
       if (nextBtn) nextBtn.style.display = currentSlideImages.length > 1 ? 'flex' : 'none';
 
-      renderSlide(0);
-      startAutoSlide();
+      renderSlide(currentSlideIndex);
+      if (!preserveSlide) {
+        startAutoSlide();
+      }
 
       if (bulletsEl) {
         bulletsEl.innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
@@ -2460,7 +2988,10 @@
       document.body.style.overflow = 'hidden';
     }
 
+    openExpModalFn = openExpModal;
+
     function closeExpModal() {
+      window.__currentExpId = null;
       stopAutoSlide();
       if (!modal) return;
       modal.classList.remove('active');
@@ -2506,14 +3037,29 @@
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initCertModal();
-      initExpModal();
-    });
-  } else {
+  function initApp() {
+    initLangSelector();
     initCertModal();
     initExpModal();
+
+    // Determine initial language: localStorage -> browser language -> default 'en'
+    let initialLang = 'en';
+    try {
+      const stored = localStorage.getItem('portfolio_language');
+      if (stored && (stored === 'en' || stored === 'fr')) {
+        initialLang = stored;
+      } else if (navigator.language && navigator.language.toLowerCase().startsWith('fr')) {
+        initialLang = 'fr';
+      }
+    } catch (e) {}
+
+    setLanguage(initialLang);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
   }
 </script>
 
