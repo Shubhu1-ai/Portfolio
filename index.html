@@ -102,19 +102,35 @@
   .lang-option .lang-check{ font-size:0.75rem; opacity:0; color:var(--amber); font-weight:bold; }
   .lang-option.active .lang-check{ opacity:1; }
 
-  /* Small CV Links (Nav & Hero) */
-  .nav-cv-link{
-    color:var(--amber) !important;
-    border-bottom:1px solid rgba(232, 163, 61, 0.3) !important;
-    font-size:0.78rem !important;
-    white-space:nowrap;
-    cursor:pointer;
-    padding-bottom:2px;
+  /* Top Nav CV Dropdown */
+  .nav-cv-dropdown{ position:relative; display:inline-flex; align-items:center; }
+  .nav-cv-btn{
+    background:none; border:none; padding:0 0 2px 0; font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; color:var(--slate); border-bottom:1px solid transparent;
+    cursor:pointer; display:inline-flex; align-items:center; gap:5px;
+    transition:color 0.16s ease, border-bottom-color 0.16s ease;
   }
-  .nav-cv-link:hover{
-    color:#ffffff !important;
-    border-bottom-color:var(--amber) !important;
+  .nav-cv-btn:hover, .nav-cv-dropdown.open .nav-cv-btn{ color:var(--ink); border-bottom-color:var(--amber); }
+  .nav-cv-caret{ transition:transform 0.2s ease; }
+  .nav-cv-dropdown.open .nav-cv-caret{ transform:rotate(180deg); color:var(--amber); }
+  .nav-cv-menu{
+    position:absolute; top:calc(100% + 8px); right:0; min-width:160px;
+    background:#0e1520; border:1px solid rgba(201, 214, 227, 0.3); border-radius:6px;
+    box-shadow:0 16px 38px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.5); padding:6px; display:none; flex-direction:column;
+    gap:3px; z-index:9999; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   }
+  .nav-cv-dropdown.open .nav-cv-menu{ display:flex; animation:langDropAnim 0.15s ease-out; }
+  .nav-cv-item{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    padding:8px 12px; background:transparent; border:none; color:#d2dce6;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; border-radius:4px;
+    cursor:pointer; text-align:left; transition:all 0.15s ease;
+  }
+  .nav-cv-item:hover, .nav-cv-item:focus-visible{
+    background:rgba(232, 163, 61, 0.15); color:var(--amber);
+  }
+  .nav-cv-icon{ font-size:0.75rem; color:var(--amber); }
+
   .btn-cv-hero{
     cursor:pointer;
     font-size:0.82rem;
@@ -1260,6 +1276,9 @@
   @media (max-width:760px){
     .tb-actions{ gap:8px; }
     nav.tb-links{ display:none; }
+    .nav-cv-dropdown{ width:100%; display:block; }
+    .nav-cv-btn{ width:100%; justify-content:space-between; padding:6px 0; color:#cbd3d8; }
+    .nav-cv-menu{ position:static; min-width:100%; box-shadow:none; border:1px solid rgba(255,255,255,0.1); margin-top:6px; }
     .tb-menu-btn{ display:block; }
     .about-grid, .exp-item{ grid-template-columns:1fr; gap:24px; }
     .feature{ padding:28px 18px; }
@@ -1487,8 +1506,22 @@
         <a href="#skills" data-i18n="nav.skills">Skills</a>
         <a href="#certifications" data-i18n="nav.certifications">Certifications</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
-        <a href="./Project/Shubham_Bollu_CV.pdf" class="nav-cv-link cv-modal-btn" data-pdf="./Project/Shubham_Bollu_CV.pdf" data-title="CV (English)" data-i18n="cv.en">CV (English)</a>
-        <a href="./Project/Shubham_Bollu_CV_Robotique.pdf" class="nav-cv-link cv-modal-btn" data-pdf="./Project/Shubham_Bollu_CV_Robotique.pdf" data-title="CV (Français)" data-i18n="cv.fr">CV (Français)</a>
+        <div class="nav-cv-dropdown" id="navCvDropdown">
+          <button class="nav-cv-btn" id="navCvBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span>CV</span>
+            <svg class="nav-cv-caret" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav-cv-menu" id="navCvMenu" role="menu">
+            <button type="button" class="nav-cv-item cv-modal-btn" data-pdf="./Project/Shubham_Bollu_CV.pdf" data-title="CV (English)" role="menuitem">
+              <span data-i18n="cv.en">CV (English)</span>
+              <span class="nav-cv-icon">↗</span>
+            </button>
+            <button type="button" class="nav-cv-item cv-modal-btn" data-pdf="./Project/Shubham_Bollu_CV_Robotique.pdf" data-title="CV (Français)" role="menuitem">
+              <span data-i18n="cv.fr">CV (Français)</span>
+              <span class="nav-cv-icon">↗</span>
+            </button>
+          </div>
+        </div>
       </nav>
       <div class="lang-selector" id="langSelector">
         <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
@@ -2604,6 +2637,12 @@
 
     function toggleDropdown(e) {
       if (e) e.stopPropagation();
+      const navCv = document.getElementById('navCvDropdown');
+      if (navCv) {
+        navCv.classList.remove('open');
+        const navBtn = document.getElementById('navCvBtn');
+        if (navBtn) navBtn.setAttribute('aria-expanded', 'false');
+      }
       const isOpen = selector.classList.toggle('open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
@@ -2635,6 +2674,48 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && selector.classList.contains('open')) {
         closeDropdown();
+      }
+    });
+  }
+
+  // Top Nav CV Dropdown Controller
+  function initNavCvDropdown() {
+    const dropdown = document.getElementById('navCvDropdown');
+    const btn = document.getElementById('navCvBtn');
+    const langSel = document.getElementById('langSelector');
+    if (!dropdown || !btn) return;
+
+    function closeNavCv() {
+      dropdown.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (langSel) {
+        langSel.classList.remove('open');
+        const langBtn = document.getElementById('langBtn');
+        if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
+      }
+      const isOpen = dropdown.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    dropdown.querySelectorAll('.nav-cv-item').forEach(item => {
+      item.addEventListener('click', () => {
+        closeNavCv();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        closeNavCv();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+        closeNavCv();
       }
     });
   }
@@ -3112,6 +3193,7 @@
 
   function initApp() {
     initLangSelector();
+    initNavCvDropdown();
     initCertModal();
     initExpModal();
 
