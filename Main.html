@@ -481,7 +481,7 @@
     margin-bottom:18px;
     position:relative;
   }
-  .proj-card-media img{
+  .proj-card-media:not(.proj-card-slider) img{
     width:100%;
     height:100%;
     object-fit:cover;
@@ -489,8 +489,92 @@
     display:block;
     transition:transform 0.4s ease;
   }
-  .proj-card:hover .proj-card-media img{
+  .proj-card:hover .proj-card-media:not(.proj-card-slider) img{
     transform:scale(1.05);
+  }
+
+  /* Card slider for cards with multiple images */
+  .proj-card-media.proj-card-slider{
+    position:relative;
+    user-select:none;
+  }
+  .proj-card-media .card-slider-track{
+    display:flex;
+    width:100%;
+    height:100%;
+    transition:transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change:transform;
+  }
+  .proj-card-media .card-slider-track img{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  .card-slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:5;
+    background:rgba(10, 15, 24, 0.78);
+    border:1px solid rgba(255, 255, 255, 0.25);
+    color:#FFFFFF;
+    font-size:1.2rem;
+    line-height:1;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    user-select:none;
+    padding:0;
+    opacity:0.85;
+  }
+  .card-slider-btn:hover{
+    background:var(--amber);
+    color:#122842;
+    border-color:var(--amber);
+    transform:translateY(-50%) scale(1.1);
+    opacity:1;
+  }
+  .card-slider-btn.prev{ left:8px; }
+  .card-slider-btn.next{ right:8px; }
+  .card-slider-dots{
+    position:absolute;
+    bottom:8px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    display:flex;
+    gap:6px;
+    background:rgba(8, 14, 22, 0.65);
+    padding:4px 8px;
+    border-radius:12px;
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255, 255, 255, 0.12);
+  }
+  .card-slider-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(255, 255, 255, 0.4);
+    cursor:pointer;
+    transition:all 0.25s ease;
+  }
+  .card-slider-dot.active{
+    background:var(--amber);
+    transform:scale(1.3);
+    box-shadow:0 0 6px rgba(232, 163, 61, 0.8);
   }
   .proj-card .dwg{ font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--slate); }
   .proj-card h3{ font-size:1.25rem; margin-top:10px; }
@@ -2322,7 +2406,11 @@
         ]
       },
       {
-        title: "Solar Milk Pasteurization",
+        title: "SOLAR OPERATED MILK PASTURIZATION SYSTEM",
+        images: [
+          "./Project/Milk Pasturization.jpg",
+          "./Project/Milk Pasturization1.png"
+        ],
         image: "./Project/Milk Pasturization.jpg",
         imagePos: "center center",
         desc: "Dassault Systèmes–sponsored project. Developed a solar-powered pasteurization process with temperature control and packing system for dairy processing.",
@@ -2350,7 +2438,11 @@
         ]
       },
       {
-        title: "Pasteurisation solaire du lait",
+        title: "SYSTÈME DE PASTEURISATION DU LAIT À ÉNERGIE SOLAIRE",
+        images: [
+          "./Project/Milk Pasturization.jpg",
+          "./Project/Milk Pasturization1.png"
+        ],
         image: "./Project/Milk Pasturization.jpg",
         imagePos: "center center",
         desc: "Projet sponsorisé par Dassault Systèmes. Développement d'un procédé de pasteurisation solaire avec régulation de température et système de conditionnement pour la filière laitière.",
@@ -2534,6 +2626,90 @@
   let updateAllegriLangFn = null;
   let openExpModalFn = null;
 
+  function initCardSlider(card, total) {
+    const track = card.querySelector('.card-slider-track');
+    const prevBtn = card.querySelector('.card-slider-btn.prev');
+    const nextBtn = card.querySelector('.card-slider-btn.next');
+    const dots = card.querySelectorAll('.card-slider-dot');
+    const sliderWrap = card.querySelector('.proj-card-slider');
+    if (!track || total <= 1) return;
+
+    let current = 0;
+    let autoTimer = null;
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(() => {
+        goTo(current + 1);
+      }, 3800);
+    }
+
+    function stopAuto() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goTo(current - 1);
+        startAuto();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goTo(current + 1);
+        startAuto();
+      });
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const idx = parseInt(dot.getAttribute('data-idx'), 10);
+        goTo(idx);
+        startAuto();
+      });
+    });
+
+    if (sliderWrap) {
+      sliderWrap.addEventListener('mouseenter', stopAuto);
+      sliderWrap.addEventListener('mouseleave', startAuto);
+
+      let startX = 0;
+      sliderWrap.addEventListener('touchstart', (e) => {
+        stopAuto();
+        if (e.touches && e.touches[0]) startX = e.touches[0].clientX;
+      }, { passive: true });
+
+      sliderWrap.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches[0]) {
+          const diffX = e.changedTouches[0].clientX - startX;
+          if (Math.abs(diffX) > 35) {
+            if (diffX > 0) goTo(current - 1);
+            else goTo(current + 1);
+          }
+        }
+        startAuto();
+      }, { passive: true });
+    }
+
+    startAuto();
+  }
+
   function renderCards(list, gridId) {
     const grid = document.getElementById(gridId);
     if (!grid) return;
@@ -2541,9 +2717,26 @@
     list.forEach(p => {
       const card = document.createElement('div');
       card.className = 'proj-card';
+      const hasSlider = Array.isArray(p.images) && p.images.length > 1;
       card.innerHTML = `
         <span class="corner tl"></span><span class="corner br"></span>
-        ${p.image ? `
+        ${hasSlider ? `
+          <div class="proj-card-media proj-card-slider">
+            <div class="card-slider-track">
+              ${p.images.map((img, i) => `
+                <img src="${typeof img === 'string' ? img : img.src}" 
+                     alt="${p.title} - image ${i + 1}" 
+                     style="${(typeof img === 'object' && img.pos) || p.imagePos ? `object-position:${(typeof img === 'object' && img.pos) || p.imagePos};` : ''}" 
+                     loading="lazy">
+              `).join('')}
+            </div>
+            <button type="button" class="card-slider-btn prev" aria-label="Previous image">&#x2039;</button>
+            <button type="button" class="card-slider-btn next" aria-label="Next image">&#x203A;</button>
+            <div class="card-slider-dots">
+              ${p.images.map((_, i) => `<span class="card-slider-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></span>`).join('')}
+            </div>
+          </div>
+        ` : p.image ? `
           <div class="proj-card-media">
             <img src="${p.image}" alt="${p.title}" style="${p.imagePos ? `object-position:${p.imagePos};` : ''}" loading="lazy">
           </div>
@@ -2553,6 +2746,9 @@
         <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
         ${p.links && p.links.length ? `<div class="proj-links">${p.links.map(l => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join('')}</div>` : ''}
       `;
+      if (hasSlider) {
+        initCardSlider(card, p.images.length);
+      }
       grid.appendChild(card);
     });
   }
